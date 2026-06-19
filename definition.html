@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Definition — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html" class="active">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>The Definition</h1>
+        <p class="subtitle">One integral, infinite power</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">s = σ + jω</span>
+                <span class="stat-label">complex frequency</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">[0, ∞)</span>
+                <span class="stat-label">integration domain</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">e^(−st)</span>
+                <span class="stat-label">the kernel</span>
+            </div>
+        </div>
+
+        <h2>The Formula</h2>
+
+        <div class="formula">
+            F(s) = ℒ{f(t)} = ∫₀^∞ f(t) · e^(−st) dt
+            <span class="description">where s = σ + jω is a complex number, and f(t) is defined for t ≥ 0</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Unpacking the Integral</h4>
+            <p>This formula does three things simultaneously:</p>
+            <p><strong>1. Weighs the function:</strong> The e<sup>−σt</sup> part (the real component of e<sup>−st</sup>) acts as a damping factor. It ensures the integral converges even for functions that grow over time — like e<sup>2t</sup> — as long as σ is large enough to overpower the growth.</p>
+            <p><strong>2. Extracts frequency content:</strong> The e<sup>−jωt</sup> part (the imaginary component) is a complex sinusoid. Multiplying by it and integrating extracts how much of frequency ω is present — exactly like the Fourier Transform.</p>
+            <p><strong>3. Accumulates over all time:</strong> Integrating from 0 to ∞ sums up the entire future history of f(t), weighted by exponential decay.</p>
+        </div>
+
+        <div class="analogy">
+            Imagine you're listening to a song (the function f(t)) while slowly going deaf (the e<sup>−σt</sup> damping). What you remember of the song — emphasising the beginning, fading the end — is the Laplace Transform. Different rates of going deaf (different values of σ) give you different "memories" of the same song. The full transform F(s) contains ALL possible memories simultaneously.
+        </div>
+
+        <h2>Why Start at Zero?</h2>
+
+        <div class="explanation">
+            <h4>One-sided vs. Two-sided</h4>
+            <p>The formula above is the <strong>one-sided</strong> (or unilateral) Laplace Transform — it only looks at t ≥ 0. This is the version used in 99% of engineering applications, because:</p>
+            <p>• Physical systems have a starting time (we turn them on at t = 0)<br>
+            • Initial conditions at t = 0 encode everything that happened before<br>
+            • Causal systems don't respond before they're excited</p>
+            <p>The <strong>two-sided</strong> (bilateral) transform integrates from −∞ to +∞ and is used in signal processing and probability theory. It's the Fourier Transform's more powerful cousin — identical when σ = 0.</p>
+        </div>
+
+        <div class="formula">
+            Two-sided: F(s) = ∫₋∞^∞ f(t) · e^(−st) dt
+            <span class="description">Used in signal processing — reduces to the Fourier Transform when s = jω</span>
+        </div>
+
+        <h2>The Complex Variable s</h2>
+
+        <div class="explanation">
+            <h4>Anatomy of s = σ + jω</h4>
+            <p>The variable s is complex, and its two parts have distinct physical meanings:</p>
+            <p><strong>σ (sigma) — the real part:</strong> Controls exponential growth or decay. σ > 0 means we're looking at damped (decaying) components. σ < 0 means growing components. σ = 0 is the boundary — pure oscillation, neither growing nor decaying.</p>
+            <p><strong>ω (omega) — the imaginary part:</strong> Controls oscillation frequency. This is the same angular frequency from Fourier analysis. ω = 0 means we're looking at pure exponentials with no oscillation.</p>
+        </div>
+
+        <div class="analogy">
+            If the s-plane is a map, then the vertical axis (jω) is a radio dial — tuning to different frequencies. The horizontal axis (σ) is a volume knob for exponential growth. Every point on this map asks a specific question: "How much of the signal looks like e<sup>(σ+jω)t</sup>?" The Laplace Transform answers this question for every point simultaneously.
+        </div>
+
+        <h2>Region of Convergence (ROC)</h2>
+
+        <div class="explanation">
+            <h4>Where the integral exists</h4>
+            <p>The integral ∫₀^∞ f(t)·e<sup>−st</sup> dt doesn't converge for every value of s. The <strong>Region of Convergence</strong> is the set of all s values where it does converge.</p>
+            <p>For the one-sided transform, the ROC is always a right half-plane: Re(s) > σ₀, where σ₀ is called the <strong>abscissa of convergence</strong>. Everything to the right of this vertical line in the s-plane gives a convergent integral.</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Function f(t)</th>
+                    <th>ROC</th>
+                    <th>σ₀</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>e<sup>−at</sup> (a > 0)</td>
+                    <td>Re(s) > −a</td>
+                    <td>−a</td>
+                </tr>
+                <tr>
+                    <td>e<sup>at</sup> (a > 0)</td>
+                    <td>Re(s) > a</td>
+                    <td>a</td>
+                </tr>
+                <tr>
+                    <td>t<sup>n</sup></td>
+                    <td>Re(s) > 0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>sin(ωt), cos(ωt)</td>
+                    <td>Re(s) > 0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>δ(t) (impulse)</td>
+                    <td>All s</td>
+                    <td>−∞</td>
+                </tr>
+                <tr>
+                    <td>e<sup>t²</sup></td>
+                    <td>Empty — no transform exists</td>
+                    <td>∞</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="explanation">
+            <h4>Why it matters</h4>
+            <p>For most engineering functions (anything of "exponential order"), the ROC exists and extends to the right. The only signals that defeat the Laplace Transform are those that grow faster than any exponential — like e<sup>t²</sup>. In practice, real physical systems never produce such signals (they'd require infinite energy), so the Laplace Transform always works for real systems.</p>
+        </div>
+
+        <h2>Existence Conditions</h2>
+
+        <div class="explanation">
+            <h4>When does F(s) exist?</h4>
+            <p>A sufficient condition: f(t) is <strong>piecewise continuous</strong> on [0, ∞) and of <strong>exponential order</strong> — meaning there exist constants M, c, and T such that:</p>
+        </div>
+
+        <div class="formula">
+            |f(t)| ≤ M · e^(ct)  for all t > T
+            <span class="description">f(t) doesn't grow faster than some exponential — then ℒ{f} exists for Re(s) > c</span>
+        </div>
+
+        <div class="analogy">
+            Exponential order is like a speed limit. The function f(t) can grow, oscillate, have jumps — as long as it doesn't accelerate beyond exponential growth, the e<sup>−st</sup> damping can always catch it (just pick s large enough). It's like saying: "You can run as fast as you want, as long as you can't outrun a rocket." Only super-exponential functions (e<sup>t²</sup>, t!) escape.
+        </div>
+
+        <h2>Relationship to Other Transforms</h2>
+
+        <div class="explanation">
+            <h4>The Transform Family</h4>
+            <p><strong>Fourier Transform:</strong> Set s = jω (i.e., σ = 0). The Laplace Transform restricted to the imaginary axis IS the Fourier Transform — but only when the Fourier integral converges (which requires f(t) to decay). The Laplace Transform is strictly more general.</p>
+            <p><strong>Z-Transform:</strong> Set z = e<sup>sT</sup> where T is the sample period. The Z-Transform IS the Laplace Transform for discrete-time signals, mapped through z = e<sup>sT</sup>. Every Laplace-domain fact has a Z-domain counterpart.</p>
+            <p><strong>Mellin Transform:</strong> Substitute t = e<sup>−x</sup>. The Mellin Transform is the Laplace Transform in logarithmic coordinates — used in number theory and complex analysis.</p>
+        </div>
+
+        <div class="question-box">
+            <h4>Deeper Questions</h4>
+            <ul>
+                <li>Is there a natural generalisation of the Laplace Transform to nonlinear systems that preserves its algebraic simplicity?</li>
+                <li>Why does the exponential kernel e<sup>−st</sup> work so well? Is there a deeper categorical or information-theoretic reason?</li>
+                <li>Can the Laplace Transform be extended to functions on non-Euclidean spaces in a useful way?</li>
+            </ul>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The exponential as nature's eigenfunction</h4>
+            <p>The reason e<sup>st</sup> is the kernel is profound: exponentials are the <em>only</em> functions that are eigenfunctions of the derivative operator. When you differentiate e<sup>st</sup>, you get s·e<sup>st</sup> — the same function scaled. This means any linear time-invariant system, when fed e<sup>st</sup>, outputs a scaled version of e<sup>st</sup>. The scaling factor IS the transfer function H(s). The Laplace Transform decomposes inputs into exponentials because those are what linear systems can't mix up.</p>
+            <p class="caveat">This eigenfunction perspective is standard mathematics, but whether it reveals something deep about why nature favours linear systems, or is merely a reflection of our preference for solvable models, remains a philosophical question.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="history.html">← History</a>
+            <a href="properties.html">Properties →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

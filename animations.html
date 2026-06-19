@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Animations — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html" class="active">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Interactive Animations</h1>
+        <p class="subtitle">See the s-plane come alive</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">4</span>
+                <span class="stat-label">interactive demos</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">dependencies</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Canvas</span>
+                <span class="stat-label">pure HTML5</span>
+            </div>
+        </div>
+
+        <!-- Animation 1: Pole-Zero Plot and Step Response -->
+        <h2>1. Pole-Zero Map → Step Response</h2>
+
+        <div class="animation-container">
+            <canvas id="polezero-canvas" width="800" height="350"></canvas>
+            <div class="animation-controls">
+                <label>Real part (σ): <input type="range" id="pz-sigma" min="-5" max="1" step="0.1" value="-2"></label>
+                <label>Imag part (ω): <input type="range" id="pz-omega" min="0" max="8" step="0.1" value="3"></label>
+                <label>Damping: <span id="pz-zeta-val">0.55</span></label>
+            </div>
+            <div class="animation-explainer">
+                <div>
+                    <h4>What you're seeing</h4>
+                    <p>Left: the s-plane with a conjugate pole pair (×) and the stability boundary (imaginary axis). Right: the step response — how the system responds to a sudden input. Drag the sliders to move the poles and watch the time response change in real-time.</p>
+                </div>
+                <div>
+                    <h4>So what?</h4>
+                    <p>Poles further left → faster decay. Poles further from real axis → more oscillation. Poles crossing the imaginary axis → instability (response grows without bound). This is how control engineers design systems: place the poles where you want the behaviour.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animation 2: The Laplace Integral Visualised -->
+        <h2>2. The Laplace Integral — Visualised</h2>
+
+        <div class="animation-container">
+            <canvas id="integral-canvas" width="800" height="300"></canvas>
+            <div class="animation-controls">
+                <label>Function:
+                    <button id="int-fn-exp" class="active">e<sup>−t</sup></button>
+                    <button id="int-fn-sin">sin(2t)</button>
+                    <button id="int-fn-step">step</button>
+                </label>
+                <label>σ (damping): <input type="range" id="int-sigma" min="0" max="5" step="0.1" value="1"></label>
+                <label>ω (frequency): <input type="range" id="int-omega" min="0" max="8" step="0.1" value="0"></label>
+            </div>
+            <div class="animation-explainer">
+                <div>
+                    <h4>What you're seeing</h4>
+                    <p>Top: the original function f(t) in blue, the kernel e<sup>−st</sup> in gold, and their product f(t)·e<sup>−st</sup> in green. The Laplace Transform is the total area under the green curve (shown as the filled region). Adjusting s changes the kernel and hence the area.</p>
+                </div>
+                <div>
+                    <h4>So what?</h4>
+                    <p>This shows what the integral "does" — it weights f(t) by a decaying exponential and sums up the result. Large σ kills the function quickly (only early values matter). Small σ lets late values contribute. The transform F(s) is this area as a function of s — each point on F(s) is one of these integrals.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animation 3: Frequency Response (Bode-like) -->
+        <h2>3. Frequency Response Explorer</h2>
+
+        <div class="animation-container">
+            <canvas id="bode-canvas" width="800" height="350"></canvas>
+            <div class="animation-controls">
+                <label>Natural freq ωₙ: <input type="range" id="bode-wn" min="0.5" max="10" step="0.1" value="3"></label>
+                <label>Damping ζ: <input type="range" id="bode-zeta" min="0.05" max="2" step="0.05" value="0.5"></label>
+                <label>ωₙ = <span id="bode-wn-val">3.0</span>, ζ = <span id="bode-zeta-val">0.50</span></label>
+            </div>
+            <div class="animation-explainer">
+                <div>
+                    <h4>What you're seeing</h4>
+                    <p>The magnitude response |H(jω)| of a second-order system ωₙ²/(s²+2ζωₙs+ωₙ²). The resonant peak grows as damping decreases. At ζ = 1/√2 ≈ 0.707, the response is maximally flat (Butterworth). Below that, resonance amplifies inputs near ωₙ.</p>
+                </div>
+                <div>
+                    <h4>So what?</h4>
+                    <p>This IS what Bode plots show — how much each frequency gets amplified or attenuated by the system. An audio speaker, a suspension system, a radio receiver — all are designed by shaping this curve. The peak at low ζ is why wine glasses shatter at their resonant frequency.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animation 4: Convolution -->
+        <h2>4. Convolution in Action</h2>
+
+        <div class="animation-container">
+            <canvas id="conv-canvas" width="800" height="300"></canvas>
+            <div class="animation-controls">
+                <label>Time t: <input type="range" id="conv-t" min="0" max="8" step="0.05" value="2"></label>
+                <label>System:
+                    <button id="conv-sys-exp" class="active">e<sup>−t</sup></button>
+                    <button id="conv-sys-osc">e<sup>−t</sup>sin(3t)</button>
+                </label>
+                <button id="conv-animate">▶ Animate</button>
+            </div>
+            <div class="animation-explainer">
+                <div>
+                    <h4>What you're seeing</h4>
+                    <p>Convolution of a step input (blue) with an impulse response h(t) (gold, flipped and sliding). The green filled area shows the overlap — the integral whose value at each moment gives the output (red curve being traced). This IS what H(s)·X(s) computes algebraically.</p>
+                </div>
+                <div>
+                    <h4>So what?</h4>
+                    <p>Convolution is the fundamental operation of linear systems — input * impulse_response = output. In the time domain, it requires sliding, multiplying, and integrating (expensive). In the s-domain, it's just multiplication: Y(s) = H(s)·X(s). The Laplace Transform converts this animation into one multiplication.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="speculation-box">
+            <h4>Why interactive visualisation matters</h4>
+            <p>The s-plane and frequency response are inherently spatial concepts — they map complex numbers to behaviours. Static diagrams in textbooks show one case; interactive animations let you build intuition for the continuous mapping between parameter space and behaviour space. Every control engineer has a "mental simulator" for what happens when you move a pole — these animations are training that simulator directly.</p>
+            <p class="caveat">Visualisation aids intuition but can mislead if taken too literally. The s-plane is infinite-dimensional (every point gives a different response), and 2D animations necessarily project that richness onto a manageable slice.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="applications.html">← Applications</a>
+            <a href="index.html">Home →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+
+    <script>
+    // Animation 1: Pole-Zero Map and Step Response
+    (function() {
+        const canvas = document.getElementById('polezero-canvas');
+        const ctx = canvas.getContext('2d');
+        const sigmaSlider = document.getElementById('pz-sigma');
+        const omegaSlider = document.getElementById('pz-omega');
+        const zetaDisplay = document.getElementById('pz-zeta-val');
+
+        function draw() {
+            const sigma = parseFloat(sigmaSlider.value);
+            const omega = parseFloat(omegaSlider.value);
+            const wn = Math.sqrt(sigma * sigma + omega * omega);
+            const zeta = wn > 0 ? -sigma / wn : 1;
+            zetaDisplay.textContent = zeta.toFixed(2);
+
+            ctx.clearRect(0, 0, 800, 350);
+
+            // Left panel: s-plane
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, 0, 380, 350);
+            ctx.clip();
+
+            // Background
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(0, 0, 380, 350);
+
+            // Grid
+            const cx = 220, cy = 175;
+            const scale = 30;
+
+            ctx.strokeStyle = '#1a1a2e';
+            ctx.lineWidth = 1;
+            for (let i = -7; i <= 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(cx + i * scale, 0);
+                ctx.lineTo(cx + i * scale, 350);
+                ctx.stroke();
+            }
+            for (let i = -5; i <= 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, cy + i * scale);
+                ctx.lineTo(380, cy + i * scale);
+                ctx.stroke();
+            }
+
+            // Imaginary axis (stability boundary)
+            ctx.strokeStyle = '#fc5c7d44';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, 0);
+            ctx.lineTo(cx, 350);
+            ctx.stroke();
+
+            // Axes
+            ctx.strokeStyle = '#445';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy);
+            ctx.lineTo(380, cy);
+            ctx.moveTo(cx, 0);
+            ctx.lineTo(cx, 350);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            ctx.fillText('Re(s)', 340, cy - 8);
+            ctx.fillText('Im(s)', cx + 5, 15);
+            ctx.fillText('σ', 340, cy + 15);
+            ctx.fillText('jω', cx + 5, 25);
+
+            // Shade unstable region
+            ctx.fillStyle = 'rgba(252, 92, 125, 0.05)';
+            ctx.fillRect(cx, 0, 160, 350);
+
+            // Draw poles
+            const px = cx + sigma * scale;
+            const py1 = cy - omega * scale;
+            const py2 = cy + omega * scale;
+
+            ctx.strokeStyle = '#f0c27f';
+            ctx.lineWidth = 2.5;
+            // X marks
+            const ps = 7;
+            ctx.beginPath();
+            ctx.moveTo(px - ps, py1 - ps); ctx.lineTo(px + ps, py1 + ps);
+            ctx.moveTo(px + ps, py1 - ps); ctx.lineTo(px - ps, py1 + ps);
+            ctx.stroke();
+            if (omega > 0.1) {
+                ctx.beginPath();
+                ctx.moveTo(px - ps, py2 - ps); ctx.lineTo(px + ps, py2 + ps);
+                ctx.moveTo(px + ps, py2 - ps); ctx.lineTo(px - ps, py2 + ps);
+                ctx.stroke();
+            }
+
+            // Labels on poles
+            ctx.fillStyle = '#f0c27f';
+            ctx.font = '10px Courier New';
+            ctx.fillText(`${sigma.toFixed(1)}+${omega.toFixed(1)}j`, px + 10, py1 - 5);
+
+            ctx.restore();
+
+            // Right panel: Step response
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(400, 0, 400, 350);
+            ctx.clip();
+
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(400, 0, 400, 350);
+
+            // Time axis
+            const tx0 = 420, ty0 = 280, tw = 360, th = 220;
+            ctx.strokeStyle = '#445';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(tx0, ty0);
+            ctx.lineTo(tx0 + tw, ty0);
+            ctx.moveTo(tx0, ty0 - th);
+            ctx.lineTo(tx0, ty0 + 30);
+            ctx.stroke();
+
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            ctx.fillText('t', tx0 + tw - 10, ty0 + 20);
+            ctx.fillText('y(t)', tx0 + 5, ty0 - th + 10);
+
+            // Steady state line at y=1
+            ctx.strokeStyle = '#334';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            const ssY = ty0 - th * 0.5;
+            ctx.moveTo(tx0, ssY);
+            ctx.lineTo(tx0 + tw, ssY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#556';
+            ctx.fillText('1.0', tx0 - 25, ssY + 4);
+
+            // Compute step response
+            ctx.strokeStyle = '#6a82fb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            const dt = 0.02;
+            const tmax = 8;
+            let first = true;
+            for (let t = 0; t <= tmax; t += dt) {
+                let y;
+                if (omega < 0.05) {
+                    // Real poles (overdamped or pure exponential)
+                    if (sigma >= 0) {
+                        y = Math.exp(sigma * t) * t; // unstable
+                    } else {
+                        y = 1 - Math.exp(sigma * t);
+                    }
+                } else {
+                    // Complex poles
+                    if (wn < 0.01) {
+                        y = 0;
+                    } else {
+                        const wd = omega;
+                        const phi = Math.atan2(wd, -sigma);
+                        y = 1 - (Math.exp(sigma * t) / Math.sin(phi)) * Math.sin(wd * t + phi);
+                    }
+                }
+
+                // Clamp for display
+                y = Math.max(-1.5, Math.min(3, y));
+
+                const px2 = tx0 + (t / tmax) * tw;
+                const py = ty0 - y * th * 0.5;
+
+                if (first) { ctx.moveTo(px2, py); first = false; }
+                else ctx.lineTo(px2, py);
+            }
+            ctx.stroke();
+
+            // Stability indicator
+            ctx.font = '12px Courier New';
+            if (sigma > 0) {
+                ctx.fillStyle = '#fc5c7d';
+                ctx.fillText('UNSTABLE', tx0 + tw/2 - 30, ty0 - th + 25);
+            } else if (sigma === 0) {
+                ctx.fillStyle = '#f0c27f';
+                ctx.fillText('MARGINALLY STABLE', tx0 + tw/2 - 55, ty0 - th + 25);
+            } else {
+                ctx.fillStyle = '#5a9';
+                ctx.fillText('STABLE', tx0 + tw/2 - 20, ty0 - th + 25);
+            }
+
+            ctx.restore();
+
+            // Divider
+            ctx.strokeStyle = '#1a1a2e';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(390, 10);
+            ctx.lineTo(390, 340);
+            ctx.stroke();
+        }
+
+        sigmaSlider.addEventListener('input', draw);
+        omegaSlider.addEventListener('input', draw);
+        draw();
+    })();
+
+    // Animation 2: The Laplace Integral Visualised
+    (function() {
+        const canvas = document.getElementById('integral-canvas');
+        const ctx = canvas.getContext('2d');
+        const sigmaSlider = document.getElementById('int-sigma');
+        const omegaSlider = document.getElementById('int-omega');
+        const btnExp = document.getElementById('int-fn-exp');
+        const btnSin = document.getElementById('int-fn-sin');
+        const btnStep = document.getElementById('int-fn-step');
+
+        let fnType = 'exp';
+
+        function getF(t) {
+            if (fnType === 'exp') return Math.exp(-t);
+            if (fnType === 'sin') return Math.sin(2 * t);
+            return 1; // step
+        }
+
+        function draw() {
+            const sigma = parseFloat(sigmaSlider.value);
+            const omega = parseFloat(omegaSlider.value);
+
+            ctx.clearRect(0, 0, 800, 300);
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(0, 0, 800, 300);
+
+            const x0 = 60, y0 = 150, w = 700, h = 120;
+            const tmax = 8;
+
+            // Axes
+            ctx.strokeStyle = '#445';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x0 + w, y0);
+            ctx.moveTo(x0, y0 - h);
+            ctx.lineTo(x0, y0 + h);
+            ctx.stroke();
+
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            ctx.fillText('t', x0 + w - 10, y0 + 15);
+            ctx.fillText('0', x0 - 3, y0 + 15);
+
+            const dt = 0.03;
+            const scaleY = h * 0.8;
+
+            // Draw f(t) in blue
+            ctx.strokeStyle = '#6a82fb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let first = true;
+            for (let t = 0; t <= tmax; t += dt) {
+                const ft = getF(t);
+                const px = x0 + (t / tmax) * w;
+                const py = y0 - ft * scaleY;
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Draw kernel e^(-st) in gold (real part)
+            ctx.strokeStyle = '#f0c27f';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            first = true;
+            for (let t = 0; t <= tmax; t += dt) {
+                const kernel = Math.exp(-sigma * t) * Math.cos(omega * t);
+                const px = x0 + (t / tmax) * w;
+                const py = y0 - kernel * scaleY;
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw product and fill
+            ctx.fillStyle = 'rgba(85, 170, 153, 0.3)';
+            ctx.strokeStyle = '#5a9';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            let area = 0;
+            for (let t = 0; t <= tmax; t += dt) {
+                const ft = getF(t);
+                const kernel = Math.exp(-sigma * t) * Math.cos(omega * t);
+                const product = ft * kernel;
+                area += product * dt;
+                const px = x0 + (t / tmax) * w;
+                const py = y0 - product * scaleY;
+                ctx.lineTo(px, py);
+            }
+            ctx.lineTo(x0 + w, y0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            first = true;
+            for (let t = 0; t <= tmax; t += dt) {
+                const ft = getF(t);
+                const kernel = Math.exp(-sigma * t) * Math.cos(omega * t);
+                const product = ft * kernel;
+                const px = x0 + (t / tmax) * w;
+                const py = y0 - product * scaleY;
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Legend
+            ctx.font = '12px Courier New';
+            ctx.fillStyle = '#6a82fb';
+            ctx.fillText('f(t)', x0 + w - 200, 25);
+            ctx.fillStyle = '#f0c27f';
+            ctx.fillText('e^(-σt)cos(ωt)', x0 + w - 200, 42);
+            ctx.fillStyle = '#5a9';
+            ctx.fillText('product (area = F(s))', x0 + w - 200, 59);
+
+            // Show computed value
+            ctx.fillStyle = '#f0c27f';
+            ctx.font = '14px Courier New';
+            ctx.fillText(`F(${sigma.toFixed(1)} + ${omega.toFixed(1)}j) ≈ ${area.toFixed(3)}`, x0 + 10, 30);
+        }
+
+        function setFn(type) {
+            fnType = type;
+            [btnExp, btnSin, btnStep].forEach(b => b.classList.remove('active'));
+            if (type === 'exp') btnExp.classList.add('active');
+            if (type === 'sin') btnSin.classList.add('active');
+            if (type === 'step') btnStep.classList.add('active');
+            draw();
+        }
+
+        btnExp.addEventListener('click', () => setFn('exp'));
+        btnSin.addEventListener('click', () => setFn('sin'));
+        btnStep.addEventListener('click', () => setFn('step'));
+        sigmaSlider.addEventListener('input', draw);
+        omegaSlider.addEventListener('input', draw);
+        draw();
+    })();
+
+    // Animation 3: Frequency Response
+    (function() {
+        const canvas = document.getElementById('bode-canvas');
+        const ctx = canvas.getContext('2d');
+        const wnSlider = document.getElementById('bode-wn');
+        const zetaSlider = document.getElementById('bode-zeta');
+        const wnVal = document.getElementById('bode-wn-val');
+        const zetaVal = document.getElementById('bode-zeta-val');
+
+        function draw() {
+            const wn = parseFloat(wnSlider.value);
+            const zeta = parseFloat(zetaSlider.value);
+            wnVal.textContent = wn.toFixed(1);
+            zetaVal.textContent = zeta.toFixed(2);
+
+            ctx.clearRect(0, 0, 800, 350);
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(0, 0, 800, 350);
+
+            const x0 = 80, y0 = 310, w = 680, h = 260;
+            const wmin = 0.1, wmax = 50;
+
+            // Axes
+            ctx.strokeStyle = '#445';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x0 + w, y0);
+            ctx.moveTo(x0, y0 - h);
+            ctx.lineTo(x0, y0);
+            ctx.stroke();
+
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            ctx.fillText('ω (rad/s)', x0 + w - 60, y0 + 20);
+            ctx.fillText('|H(jω)| dB', x0 - 5, y0 - h - 5);
+
+            // Grid lines and labels
+            const dbMin = -40, dbMax = 20;
+            ctx.strokeStyle = '#1a1a2e';
+            for (let db = dbMin; db <= dbMax; db += 10) {
+                const py = y0 - ((db - dbMin) / (dbMax - dbMin)) * h;
+                ctx.beginPath();
+                ctx.moveTo(x0, py);
+                ctx.lineTo(x0 + w, py);
+                ctx.stroke();
+                ctx.fillStyle = '#556';
+                ctx.fillText(db + '', x0 - 30, py + 4);
+            }
+
+            // Log frequency grid
+            for (let decade = -1; decade <= 1.7; decade += 1) {
+                const freq = Math.pow(10, decade);
+                const px = x0 + (Math.log10(freq / wmin) / Math.log10(wmax / wmin)) * w;
+                ctx.beginPath();
+                ctx.moveTo(px, y0);
+                ctx.lineTo(px, y0 - h);
+                ctx.stroke();
+                ctx.fillStyle = '#556';
+                ctx.fillText(freq.toFixed(freq < 1 ? 1 : 0), px - 5, y0 + 15);
+            }
+
+            // 0 dB reference line
+            const zeroDB_y = y0 - ((0 - dbMin) / (dbMax - dbMin)) * h;
+            ctx.strokeStyle = '#334';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(x0, zeroDB_y);
+            ctx.lineTo(x0 + w, zeroDB_y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw frequency response
+            ctx.strokeStyle = '#6a82fb';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            let first = true;
+            const steps = 500;
+            for (let i = 0; i <= steps; i++) {
+                const logW = Math.log10(wmin) + (i / steps) * Math.log10(wmax / wmin);
+                const freq = Math.pow(10, logW);
+
+                // H(jw) = wn^2 / ((jw)^2 + 2*zeta*wn*(jw) + wn^2)
+                // = wn^2 / (wn^2 - w^2 + j*2*zeta*wn*w)
+                const realPart = wn * wn - freq * freq;
+                const imagPart = 2 * zeta * wn * freq;
+                const denomMag = Math.sqrt(realPart * realPart + imagPart * imagPart);
+                const mag = (wn * wn) / denomMag;
+                const magDB = 20 * Math.log10(mag);
+
+                const px = x0 + (i / steps) * w;
+                const py = y0 - ((magDB - dbMin) / (dbMax - dbMin)) * h;
+                const pyClamped = Math.max(y0 - h, Math.min(y0, py));
+
+                if (first) { ctx.moveTo(px, pyClamped); first = false; }
+                else ctx.lineTo(px, pyClamped);
+            }
+            ctx.stroke();
+
+            // Mark natural frequency
+            const wnPx = x0 + (Math.log10(wn / wmin) / Math.log10(wmax / wmin)) * w;
+            ctx.strokeStyle = '#f0c27f44';
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(wnPx, y0);
+            ctx.lineTo(wnPx, y0 - h);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#f0c27f';
+            ctx.font = '11px Courier New';
+            ctx.fillText('ωₙ', wnPx - 5, y0 + 30);
+
+            // Resonance peak value
+            if (zeta < 1 && zeta > 0) {
+                const peakMag = 1 / (2 * zeta * Math.sqrt(1 - zeta * zeta));
+                const peakDB = 20 * Math.log10(peakMag);
+                ctx.fillStyle = '#f0c27f';
+                ctx.font = '12px Courier New';
+                ctx.fillText(`Peak: ${peakDB.toFixed(1)} dB`, x0 + 10, 30);
+                ctx.fillText(`at ω = ${(wn * Math.sqrt(1 - 2*zeta*zeta)).toFixed(2)} rad/s`, x0 + 10, 47);
+            }
+
+            // Damping annotation
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            if (zeta < 0.707) ctx.fillText('Underdamped (resonant peak)', x0 + w - 200, 25);
+            else if (zeta < 1.05) ctx.fillText('~Critically damped (flat)', x0 + w - 200, 25);
+            else ctx.fillText('Overdamped (monotone roll-off)', x0 + w - 200, 25);
+        }
+
+        wnSlider.addEventListener('input', draw);
+        zetaSlider.addEventListener('input', draw);
+        draw();
+    })();
+
+    // Animation 4: Convolution
+    (function() {
+        const canvas = document.getElementById('conv-canvas');
+        const ctx = canvas.getContext('2d');
+        const tSlider = document.getElementById('conv-t');
+        const btnExp = document.getElementById('conv-sys-exp');
+        const btnOsc = document.getElementById('conv-sys-osc');
+        const btnAnimate = document.getElementById('conv-animate');
+
+        let sysType = 'exp';
+        let animating = false;
+        let animId = null;
+
+        function impulseResponse(t) {
+            if (t < 0) return 0;
+            if (sysType === 'exp') return Math.exp(-t);
+            return Math.exp(-t) * Math.sin(3 * t);
+        }
+
+        function draw() {
+            const tVal = parseFloat(tSlider.value);
+
+            ctx.clearRect(0, 0, 800, 300);
+            ctx.fillStyle = '#0d0d14';
+            ctx.fillRect(0, 0, 800, 300);
+
+            const x0 = 60, y0 = 200, w = 700, h = 150;
+            const tmax = 8;
+            const dt = 0.02;
+            const scaleY = h * 0.7;
+
+            // Axes
+            ctx.strokeStyle = '#445';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x0 + w, y0);
+            ctx.moveTo(x0, y0 - h);
+            ctx.lineTo(x0, y0 + 60);
+            ctx.stroke();
+
+            ctx.fillStyle = '#889';
+            ctx.font = '11px Courier New';
+            ctx.fillText('τ', x0 + w - 10, y0 + 15);
+
+            // Draw input x(τ) = u(τ) step (blue)
+            ctx.strokeStyle = '#6a82fb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.moveTo(x0, y0 - scaleY * 0.5);
+            ctx.lineTo(x0 + w, y0 - scaleY * 0.5);
+            ctx.stroke();
+
+            // Draw h(t-τ) flipped and shifted (gold)
+            ctx.strokeStyle = '#f0c27f';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let first = true;
+            for (let tau = 0; tau <= tmax; tau += dt) {
+                const hVal = impulseResponse(tVal - tau);
+                const px = x0 + (tau / tmax) * w;
+                const py = y0 - hVal * scaleY;
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Fill overlap region (product for τ in [0, t])
+            ctx.fillStyle = 'rgba(85, 170, 153, 0.25)';
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            let convValue = 0;
+            for (let tau = 0; tau <= Math.min(tVal, tmax); tau += dt) {
+                const hVal = impulseResponse(tVal - tau);
+                const product = 0.5 * hVal; // x(τ)=0.5 (scaled step) * h(t-τ)
+                convValue += product * dt;
+                const px = x0 + (tau / tmax) * w;
+                const py = y0 - product * scaleY;
+                ctx.lineTo(px, py);
+            }
+            const endPx = x0 + (Math.min(tVal, tmax) / tmax) * w;
+            ctx.lineTo(endPx, y0);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw output trace (red) — the convolution result
+            ctx.strokeStyle = '#fc5c7d';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            first = true;
+            let runningConv = 0;
+            for (let t = 0; t <= tmax; t += dt) {
+                const hVal = impulseResponse(t);
+                runningConv += 0.5 * hVal * dt; // step * h integrated
+                const px = x0 + (t / tmax) * w;
+                const py = y0 + 50 - runningConv * scaleY;
+                if (first) { ctx.moveTo(px, py); first = false; }
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Current time marker
+            const tPx = x0 + (tVal / tmax) * w;
+            ctx.strokeStyle = '#f0c27f44';
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(tPx, y0 - h);
+            ctx.lineTo(tPx, y0 + 60);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Legend
+            ctx.font = '11px Courier New';
+            ctx.fillStyle = '#6a82fb';
+            ctx.fillText('x(τ) = step', x0 + 10, 25);
+            ctx.fillStyle = '#f0c27f';
+            ctx.fillText('h(t−τ) flipped', x0 + 130, 25);
+            ctx.fillStyle = '#5a9';
+            ctx.fillText('overlap area', x0 + 280, 25);
+            ctx.fillStyle = '#fc5c7d';
+            ctx.fillText('output y(t)', x0 + 410, 25);
+            ctx.fillStyle = '#f0c27f';
+            ctx.font = '13px Courier New';
+            ctx.fillText(`t = ${tVal.toFixed(2)}`, x0 + w - 80, 25);
+        }
+
+        function animate() {
+            if (!animating) return;
+            let t = parseFloat(tSlider.value);
+            t += 0.03;
+            if (t > 8) t = 0;
+            tSlider.value = t;
+            draw();
+            animId = requestAnimationFrame(animate);
+        }
+
+        btnAnimate.addEventListener('click', () => {
+            animating = !animating;
+            btnAnimate.textContent = animating ? '⏸ Pause' : '▶ Animate';
+            if (animating) animate();
+            else if (animId) cancelAnimationFrame(animId);
+        });
+
+        btnExp.addEventListener('click', () => {
+            sysType = 'exp';
+            btnExp.classList.add('active');
+            btnOsc.classList.remove('active');
+            draw();
+        });
+        btnOsc.addEventListener('click', () => {
+            sysType = 'osc';
+            btnOsc.classList.add('active');
+            btnExp.classList.remove('active');
+            draw();
+        });
+
+        tSlider.addEventListener('input', draw);
+        draw();
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Systems — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html" class="active">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Control Systems</h1>
+        <p class="subtitle">Transfer functions, stability, and the language of feedback</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">H(s)</span>
+                <span class="stat-label">transfer function</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">LHP</span>
+                <span class="stat-label">stable = left half-plane</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">PID</span>
+                <span class="stat-label">most common controller</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1940s</span>
+                <span class="stat-label">golden age at Bell Labs</span>
+            </div>
+        </div>
+
+        <h2>Transfer Functions</h2>
+
+        <div class="explanation">
+            <h4>The system's DNA in the s-domain</h4>
+            <p>A <strong>transfer function</strong> H(s) = Y(s)/X(s) is the ratio of output to input in the s-domain, assuming zero initial conditions. It completely characterises a linear time-invariant (LTI) system — if you know H(s), you can predict the output for ANY input by computing Y(s) = H(s)·X(s) and inverting.</p>
+            <p>H(s) is always a ratio of polynomials for finite-dimensional systems:</p>
+        </div>
+
+        <div class="formula">
+            H(s) = (bₘsᵐ + ... + b₁s + b₀) / (aₙsⁿ + ... + a₁s + a₀)
+            <span class="description">Output/Input in s-domain. Poles = roots of denominator. Zeros = roots of numerator.</span>
+        </div>
+
+        <div class="analogy">
+            The transfer function is like a recipe: it tells you exactly how the system transforms any ingredient (input) into the dish (output). Give it a step input (a sudden change) — it tells you the step response. Give it a sinusoid — it tells you the gain and phase shift. Give it an impulse — it tells you the impulse response (which IS the system's behaviour, completely). One function, infinite predictions.
+        </div>
+
+        <h2>Poles and Zeros</h2>
+
+        <div class="explanation">
+            <h4>The skeleton of system behaviour</h4>
+            <p><strong>Poles</strong> (roots of the denominator) determine the system's natural behaviour — what it does when left alone or given an impulse. Each pole contributes a mode:</p>
+            <p>• Real pole at s = −a → exponential e<sup>−at</sup> (decay if a > 0, growth if a < 0)<br>
+            • Complex pair at s = −a ± jω → damped oscillation e<sup>−at</sup>sin(ωt+φ)<br>
+            • Pole at s = 0 → constant (integrator)<br>
+            • Pole on imaginary axis s = ±jω → sustained oscillation (marginally stable)</p>
+            <p><strong>Zeros</strong> (roots of the numerator) shape the relative contribution of each mode. They determine what the system blocks or emphasises. A zero at s = −b means the system produces no steady-state output at e<sup>−bt</sup> frequency.</p>
+        </div>
+
+        <h2>Stability</h2>
+
+        <div class="explanation">
+            <h4>The fundamental question: does the output stay bounded?</h4>
+            <p>A system is <strong>BIBO stable</strong> (bounded input → bounded output) if and only if ALL poles of H(s) lie in the open left half-plane (Re(s) < 0). This is the single most important result in control theory.</p>
+            <p><strong>Stable:</strong> All poles have Re(s) < 0 → all natural modes decay → transients die out<br>
+            <strong>Marginally stable:</strong> Poles on imaginary axis (Re(s) = 0) → sustained oscillation, never dies, never grows<br>
+            <strong>Unstable:</strong> Any pole with Re(s) > 0 → exponential growth → system blows up</p>
+        </div>
+
+        <div class="analogy">
+            The left half-plane is like the "safe zone" on a map. Poles in this zone are like balls in valleys — disturb them and they roll back to rest. Poles on the boundary (imaginary axis) are like balls on a flat plain — push them and they roll forever. Poles in the right half-plane are like balls on hilltops — any nudge sends them careening off to infinity. Stability analysis is the art of ensuring all your poles stay in the valley.
+        </div>
+
+        <h2>Stability Tests</h2>
+
+        <div class="explanation">
+            <h4>Checking stability without finding poles</h4>
+            <p>For high-order systems, finding the exact pole locations is hard. These methods determine stability without solving the polynomial:</p>
+            <p><strong>Routh-Hurwitz criterion:</strong> An algebraic test using the polynomial coefficients. Build the Routh array — if the first column has no sign changes, all poles are in the LHP. A sign change means an unstable pole.</p>
+            <p><strong>Nyquist criterion:</strong> Plot H(jω) for ω from 0 to ∞ in the complex plane. Count encirclements of the point −1. Relates open-loop frequency response to closed-loop stability. Handles delays and non-minimum-phase systems.</p>
+            <p><strong>Root locus:</strong> Track how poles of the closed-loop system move as a gain parameter K varies from 0 to ∞. Designed by Walter Evans (1948) — a graphical method that shows exactly how much gain you can add before instability.</p>
+        </div>
+
+        <h2>Feedback and Closed-Loop Systems</h2>
+
+        <div class="formula">
+            Closed-loop TF = G(s) / [1 + G(s)·H(s)]
+            <span class="description">Forward path G(s), feedback path H(s). The denominator 1 + GH is the characteristic equation.</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Why feedback changes everything</h4>
+            <p>Without feedback (open-loop), the system does whatever its natural dynamics dictate — often unstable or imprecise. Feedback lets you reshape the pole locations of the closed-loop system, effectively redesigning the system's DNA.</p>
+            <p>The <strong>characteristic equation</strong> 1 + G(s)H(s) = 0 determines the closed-loop poles. All of control design — gain tuning, compensator design, PID tuning — is about placing these closed-loop poles where you want them in the s-plane.</p>
+        </div>
+
+        <div class="analogy">
+            Feedback is like steering a car. Open-loop driving (no steering wheel) means you point the car and hope. Closed-loop (with steering) means you constantly observe the road (measure the error) and correct (apply control). The transfer function tells you how responsive the steering is — too much gain and the car oscillates, too little and it drifts off course. The art is finding the sweet spot.
+        </div>
+
+        <h2>PID Control</h2>
+
+        <div class="formula">
+            C(s) = Kp + Ki/s + Kd·s = (Kd·s² + Kp·s + Ki) / s
+            <span class="description">PID controller: Proportional + Integral + Derivative — the most common controller in industry</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Three terms, three jobs</h4>
+            <p><strong>Proportional (Kp):</strong> Responds to the current error. Bigger error → bigger correction. But alone, it always leaves some steady-state error (unless the plant already has an integrator).</p>
+            <p><strong>Integral (Ki/s):</strong> Responds to accumulated past error. Eliminates steady-state error completely — keeps pushing until the error integral is zero. But adds phase lag and can cause overshoot.</p>
+            <p><strong>Derivative (Kd·s):</strong> Responds to the rate of change of error. Predicts where the error is going and acts early. Adds damping. But amplifies noise (differentiation amplifies high frequencies).</p>
+            <p>Over 90% of industrial control loops use PID or its simpler variants (PI, PD). The Laplace Transform makes tuning straightforward: each term is visible in the frequency response, and their effects on pole placement are predictable.</p>
+        </div>
+
+        <h2>Bode Plots</h2>
+
+        <div class="explanation">
+            <h4>Frequency response made visual</h4>
+            <p>A Bode plot shows the magnitude |H(jω)| and phase ∠H(jω) of the transfer function as functions of frequency ω — plotted on a log scale. They reveal:</p>
+            <p><strong>Gain margin:</strong> How much extra gain you can add before instability (where |GH| crosses 1)<br>
+            <strong>Phase margin:</strong> How much extra phase lag you can tolerate (where ∠GH crosses −180°)<br>
+            <strong>Bandwidth:</strong> The frequency range where the system responds well<br>
+            <strong>Roll-off:</strong> How quickly the system rejects high-frequency disturbances</p>
+            <p>Bode's insight: on a log-log scale, poles and zeros each contribute straight-line asymptotes with slopes of ±20 dB/decade. You can sketch the approximate Bode plot by hand in seconds.</p>
+        </div>
+
+        <div class="analogy">
+            A Bode plot is like an equalizer display on a stereo system — it shows you which frequencies the system amplifies and which it attenuates. Gain margin and phase margin are like safety margins on a bridge: they tell you how far you are from collapse (instability). Engineers typically demand at least 6 dB gain margin and 45° phase margin — like designing a bridge to hold 3× its expected load.
+        </div>
+
+        <h2>Design in the s-Plane</h2>
+
+        <div class="explanation">
+            <h4>Shaping behaviour by placing poles</h4>
+            <p>The s-plane gives you a direct map from pole location to time-domain behaviour:</p>
+            <p>• <strong>Further left</strong> = faster response (shorter time constant 1/|σ|)<br>
+            • <strong>Further from real axis</strong> = more oscillatory (higher natural frequency ω)<br>
+            • <strong>Angle from negative real axis</strong> = damping ratio ζ (cos θ = ζ)<br>
+            • <strong>Distance from origin</strong> = natural frequency ωₙ</p>
+            <p>A good controller places the dominant closed-loop poles at a location that gives the desired speed, damping, and oscillation behaviour. Typical specs: ζ = 0.7 (5% overshoot), ωₙ chosen for required settling time (ts ≈ 4/(ζωₙ)).</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Specification</th>
+                    <th>s-Plane Region</th>
+                    <th>Transfer Function Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Settling time < ts</td>
+                    <td>Re(s) < −4/ts</td>
+                    <td>All poles left of line σ = −4/ts</td>
+                </tr>
+                <tr>
+                    <td>Overshoot < X%</td>
+                    <td>ζ > −ln(X/100)/√(π²+ln²(X/100))</td>
+                    <td>Poles within wedge of angle cos⁻¹(ζ)</td>
+                </tr>
+                <tr>
+                    <td>Rise time < tr</td>
+                    <td>ωₙ > 1.8/tr (approx)</td>
+                    <td>Poles outside circle of radius 1.8/tr</td>
+                </tr>
+                <tr>
+                    <td>Zero steady-state error</td>
+                    <td>Pole at s = 0 in open loop</td>
+                    <td>Type 1 or higher system</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="question-box">
+            <h4>Open Questions in Control</h4>
+            <ul>
+                <li>Can machine learning discover control laws that outperform PID for common plants without sacrificing interpretability?</li>
+                <li>For distributed-parameter systems (infinite-dimensional), what replaces pole placement as a design methodology?</li>
+                <li>Is there a principled way to extend transfer function methods to mildly nonlinear systems without resorting to linearisation?</li>
+            </ul>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The s-plane as the periodic table of dynamics</h4>
+            <p>Just as chemists classify all matter by where elements sit in the periodic table, control engineers classify all LTI behaviour by where poles sit in the s-plane. Left half-plane: stable. Right: unstable. Near the origin: slow. Far from origin: fast. On the real axis: monotone. Off it: oscillatory. The entire zoo of dynamic behaviours — overdamped, underdamped, critically damped, integrating, resonant — reduces to a geometry problem in the complex plane. This is why control engineers think in terms of the s-plane rather than time-domain equations — it's the natural habitat of linear dynamics.</p>
+            <p class="caveat">This "periodic table" analogy works beautifully for finite-dimensional LTI systems. For nonlinear, time-varying, or infinite-dimensional systems, no single visualisation captures all behaviour — these remain research frontiers in modern control theory.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="diffeq.html">← Diff Equations</a>
+            <a href="applications.html">Applications →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

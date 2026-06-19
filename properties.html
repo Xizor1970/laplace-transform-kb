@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties & Theorems — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html" class="active">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Properties & Theorems</h1>
+        <p class="subtitle">The algebraic rules that make the transform powerful</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">key properties</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">d/dt → ×s</span>
+                <span class="stat-label">differentiation rule</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∫ → ÷s</span>
+                <span class="stat-label">integration rule</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">* → ×</span>
+                <span class="stat-label">convolution rule</span>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h4>Why properties matter</h4>
+            <p>You rarely compute a Laplace Transform from the integral definition. Instead, you build up complex transforms from simple ones using these properties — the same way you rarely integrate from first principles but use rules like the chain rule and integration by parts. Master these properties and you can transform almost anything by inspection.</p>
+        </div>
+
+        <h2>1. Linearity</h2>
+
+        <div class="formula">
+            ℒ{a·f(t) + b·g(t)} = a·F(s) + b·G(s)
+            <span class="description">The transform of a sum is the sum of transforms. Constants pass through unchanged.</span>
+        </div>
+
+        <div class="explanation">
+            <h4>What it means</h4>
+            <p>This is the most fundamental property — it makes the Laplace Transform a <strong>linear operator</strong>. Any linear combination of functions transforms to the same linear combination of their transforms. This means you can break complex functions into simpler pieces, transform each one from a table, and add the results.</p>
+        </div>
+
+        <div class="analogy">
+            Linearity is like a universal translator that works word-by-word. If you know how to translate "cat" and "dog" separately, you automatically know how to translate "3 cats and 2 dogs" — just combine the pieces. Without linearity, knowing the pieces wouldn't help with combinations.
+        </div>
+
+        <h2>2. Differentiation in Time</h2>
+
+        <div class="formula">
+            ℒ{f'(t)} = s·F(s) − f(0⁻)
+            <span class="description">First derivative: multiply by s, subtract the initial value</span>
+        </div>
+
+        <div class="formula">
+            ℒ{f''(t)} = s²·F(s) − s·f(0⁻) − f'(0⁻)
+            <span class="description">Second derivative: multiply by s², subtract initial conditions</span>
+        </div>
+
+        <div class="formula">
+            ℒ{f⁽ⁿ⁾(t)} = sⁿ·F(s) − sⁿ⁻¹f(0⁻) − sⁿ⁻²f'(0⁻) − ... − f⁽ⁿ⁻¹⁾(0⁻)
+            <span class="description">n-th derivative: multiply by sⁿ, subtract all initial conditions</span>
+        </div>
+
+        <div class="explanation">
+            <h4>This is THE key property</h4>
+            <p>This single property is why the Laplace Transform exists as an engineering tool. It converts <strong>differentiation into multiplication by s</strong>. A differential equation — which requires solving — becomes a polynomial equation — which requires only algebra.</p>
+            <p>The initial conditions f(0), f'(0), etc. appear automatically. You don't need to find the general solution and then fit constants — the particular solution incorporating initial conditions drops out directly.</p>
+        </div>
+
+        <div class="analogy">
+            Imagine you need to navigate a complex building (solve a differential equation). The Laplace Transform is like getting a bird's-eye view from above — suddenly all the corridors (derivatives) become simple lines (multiplication), and you can trace the path instantly. The initial conditions are your starting position, built right into the map.
+        </div>
+
+        <h2>3. Integration in Time</h2>
+
+        <div class="formula">
+            ℒ{∫₀ᵗ f(τ) dτ} = F(s) / s
+            <span class="description">Integration becomes division by s — the inverse of the differentiation property</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Dual of differentiation</h4>
+            <p>Just as differentiation becomes multiplication by s, integration becomes division by s. This makes sense: integration and differentiation are inverses, and multiplication and division are inverses. The transform preserves this relationship perfectly.</p>
+        </div>
+
+        <h2>4. Time Shifting (Delay)</h2>
+
+        <div class="formula">
+            ℒ{f(t − a)·u(t − a)} = e^(−as) · F(s)
+            <span class="description">Delaying by 'a' seconds multiplies the transform by e^(−as)</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Delays become exponentials</h4>
+            <p>If you delay a signal by 'a' seconds, its Laplace Transform gets multiplied by e<sup>−as</sup>. The u(t−a) is the unit step function that "turns on" at t = a — ensuring the delayed signal is zero before it starts.</p>
+            <p>This is enormously useful for systems with transport delay (like fluid flowing through a pipe, signals through a cable, or packets through a network). The delay doesn't change the shape of F(s), just multiplies it by a phase factor.</p>
+        </div>
+
+        <div class="analogy">
+            Time-shifting is like recording a TV show and watching it later. The content (F(s)) is identical — but pressing "play" 30 minutes late (delay of a) adds a "30 minutes late" tag (the e<sup>−as</sup> factor) that any system downstream needs to account for.
+        </div>
+
+        <h2>5. Frequency Shifting</h2>
+
+        <div class="formula">
+            ℒ{e^(at) · f(t)} = F(s − a)
+            <span class="description">Multiplying by an exponential shifts the transform in s</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Modulation in time, shift in frequency</h4>
+            <p>Multiplying f(t) by e<sup>at</sup> shifts F(s) to the right by 'a'. This is the s-domain version of the modulation theorem from Fourier analysis. It means you can find the transform of e<sup>at</sup>·f(t) by simply replacing s with (s−a) in F(s).</p>
+            <p><strong>Example:</strong> Since ℒ{cos(ωt)} = s/(s²+ω²), we immediately get ℒ{e<sup>−at</sup>cos(ωt)} = (s+a)/((s+a)²+ω²) by replacing s with s+a.</p>
+        </div>
+
+        <h2>6. Scaling</h2>
+
+        <div class="formula">
+            ℒ{f(at)} = (1/a) · F(s/a),  a > 0
+            <span class="description">Speeding up time by 'a' compresses the s-domain by 'a'</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Time-frequency duality</h4>
+            <p>Compressing a signal in time (making it faster) stretches it in frequency — and vice versa. This is the same uncertainty principle that appears everywhere in signal processing: you can't be simultaneously narrow in both time and frequency.</p>
+        </div>
+
+        <h2>7. Convolution Theorem</h2>
+
+        <div class="formula">
+            ℒ{f(t) * g(t)} = F(s) · G(s)
+            <span class="description">Convolution in time becomes multiplication in s — the crown jewel</span>
+        </div>
+
+        <div class="formula">
+            where (f * g)(t) = ∫₀ᵗ f(τ) · g(t−τ) dτ
+            <span class="description">Convolution: slide one function over the other, multiply and integrate</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Why this is the crown jewel</h4>
+            <p>Convolution is how linear systems combine input and impulse response: output = input * impulse_response. In the time domain, convolution is a nasty integral. In the s-domain, it's just multiplication: Output(s) = Input(s) · H(s). This is why transfer functions exist — they turn the system's input-output relationship into simple multiplication.</p>
+        </div>
+
+        <div class="analogy">
+            Convolution in time is like computing the total bill at a restaurant where every dish takes a different time to prepare and prices change over time — you need a complicated running sum. The Laplace Transform converts this into: "total bill = price × quantity" — one multiplication. The entire field of signal processing rests on this simplification.
+        </div>
+
+        <h2>8. Differentiation in s</h2>
+
+        <div class="formula">
+            ℒ{t · f(t)} = −F'(s)
+            <span class="description">Multiplying by t in time differentiates (and negates) in s</span>
+        </div>
+
+        <div class="formula">
+            ℒ{tⁿ · f(t)} = (−1)ⁿ · F⁽ⁿ⁾(s)
+            <span class="description">Multiplying by tⁿ takes the n-th derivative in s</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Practical use</h4>
+            <p>This lets you find transforms of t·f(t), t²·f(t), etc. without integrating. Since ℒ{e<sup>−at</sup>} = 1/(s+a), differentiating gives ℒ{t·e<sup>−at</sup>} = 1/(s+a)², and ℒ{t²·e<sup>−at</sup>} = 2/(s+a)³, and so on.</p>
+        </div>
+
+        <h2>9. Initial and Final Value Theorems</h2>
+
+        <div class="formula">
+            Initial: f(0⁺) = lim[s→∞] s·F(s)
+            <span class="description">Find the starting value without inverting the transform</span>
+        </div>
+
+        <div class="formula">
+            Final: f(∞) = lim[s→0] s·F(s)
+            <span class="description">Find the steady-state value without inverting — if the limit exists</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Shortcuts to the endpoints</h4>
+            <p>These theorems let you determine what happens at the very beginning and very end of a system's response without doing a full inverse transform. The <strong>Final Value Theorem</strong> is particularly important in control systems — it tells you the steady-state error of a feedback system directly from the transfer function.</p>
+            <p><strong>Caution:</strong> The Final Value Theorem only works if f(t) actually converges to a limit. If the system oscillates or diverges, the theorem gives nonsense. Check that all poles of s·F(s) have negative real parts before applying it.</p>
+        </div>
+
+        <h2>Summary Table</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Time Domain</th>
+                    <th>s-Domain</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Linearity</td>
+                    <td>af(t) + bg(t)</td>
+                    <td>aF(s) + bG(s)</td>
+                </tr>
+                <tr>
+                    <td>Differentiation</td>
+                    <td>f'(t)</td>
+                    <td>sF(s) − f(0⁻)</td>
+                </tr>
+                <tr>
+                    <td>Integration</td>
+                    <td>∫₀ᵗ f(τ)dτ</td>
+                    <td>F(s)/s</td>
+                </tr>
+                <tr>
+                    <td>Time shift</td>
+                    <td>f(t−a)u(t−a)</td>
+                    <td>e<sup>−as</sup>F(s)</td>
+                </tr>
+                <tr>
+                    <td>Frequency shift</td>
+                    <td>e<sup>at</sup>f(t)</td>
+                    <td>F(s−a)</td>
+                </tr>
+                <tr>
+                    <td>Scaling</td>
+                    <td>f(at)</td>
+                    <td>(1/a)F(s/a)</td>
+                </tr>
+                <tr>
+                    <td>Convolution</td>
+                    <td>f*g</td>
+                    <td>F(s)·G(s)</td>
+                </tr>
+                <tr>
+                    <td>Multiply by t</td>
+                    <td>t·f(t)</td>
+                    <td>−F'(s)</td>
+                </tr>
+                <tr>
+                    <td>Initial value</td>
+                    <td>f(0⁺)</td>
+                    <td>lim s→∞ sF(s)</td>
+                </tr>
+                <tr>
+                    <td>Final value</td>
+                    <td>f(∞)</td>
+                    <td>lim s→0 sF(s)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="question-box">
+            <h4>Deeper Questions</h4>
+            <ul>
+                <li>Is there a property analogous to the convolution theorem for nonlinear operators?</li>
+                <li>The time-shift property introduces transcendental functions (e<sup>−as</sup>) into rational F(s) — what are the implications for computational complexity of inverse transforms?</li>
+                <li>Can we characterise all operators that have "nice" behaviour (like convolution→multiplication) under some integral transform?</li>
+            </ul>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The algebraic structure hiding underneath</h4>
+            <p>The properties of the Laplace Transform aren't random — they reveal that the space of signals under convolution forms a <strong>commutative algebra</strong>, and the Laplace Transform is an algebra homomorphism mapping it to pointwise multiplication. This algebraic perspective (developed by Mikusiński in the 1950s) shows that operational calculus isn't a trick — it's a genuine algebraic structure. The "operators" Heaviside manipulated are elements of a quotient field, and his rules are theorems, not heuristics.</p>
+            <p class="caveat">Mikusiński's operational calculus provides an alternative rigorous foundation that doesn't require complex analysis at all — it works purely algebraically. This is a valid but lesser-known approach found primarily in specialized mathematics texts.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="definition.html">← Definition</a>
+            <a href="table.html">Transform Pairs →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

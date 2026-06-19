@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solving Differential Equations — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html" class="active">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Solving Differential Equations</h1>
+        <p class="subtitle">The core application — turning calculus into algebra</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">3</span>
+                <span class="stat-label">steps always</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">guessing required</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">ICs</span>
+                <span class="stat-label">built-in automatically</span>
+            </div>
+        </div>
+
+        <h2>The Three-Step Method</h2>
+
+        <div class="explanation">
+            <h4>Every ODE follows this recipe</h4>
+            <p><strong>Step 1 — Transform:</strong> Take the Laplace Transform of both sides. Derivatives become polynomials in s. Initial conditions appear automatically.</p>
+            <p><strong>Step 2 — Solve algebraically:</strong> The ODE is now an algebraic equation in Y(s). Solve for Y(s) using standard algebra.</p>
+            <p><strong>Step 3 — Invert:</strong> Find y(t) = ℒ⁻¹{Y(s)} using partial fractions and the transform table.</p>
+            <p>That's it. No guessing particular solutions, no variation of parameters, no undetermined coefficients. Just algebra.</p>
+        </div>
+
+        <div class="analogy">
+            The three-step method is like using logarithms to multiply: take the log (transform), add (do algebra), take the antilog (invert). Just as logs convert multiplication to addition, the Laplace Transform converts differentiation to multiplication. The "hard" operation becomes the "easy" operation in the transformed domain.
+        </div>
+
+        <h2>Example 1: First-Order ODE</h2>
+
+        <div class="explanation">
+            <h4>Problem: y' + 3y = 6, y(0) = 2</h4>
+            <p><strong>Step 1 — Transform both sides:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                [sY(s) − y(0)] + 3Y(s) = 6/s<br>
+                [sY(s) − 2] + 3Y(s) = 6/s
+            </p>
+            <p><strong>Step 2 — Solve for Y(s):</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                Y(s)(s + 3) = 6/s + 2<br>
+                Y(s) = 6/[s(s+3)] + 2/(s+3)
+            </p>
+            <p><strong>Partial fractions:</strong> 6/[s(s+3)] = 2/s − 2/(s+3)</p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                Y(s) = 2/s − 2/(s+3) + 2/(s+3) = 2/s
+            </p>
+            <p><strong>Step 3 — Invert:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center; font-size: 1.2rem;">
+                y(t) = 2
+            </p>
+            <p><strong>Check:</strong> y' = 0, so y' + 3y = 0 + 6 = 6 ✓, and y(0) = 2 ✓. The initial condition happens to already be the steady state!</p>
+        </div>
+
+        <h2>Example 2: Second-Order — Damped Oscillator</h2>
+
+        <div class="explanation">
+            <h4>Problem: y'' + 4y' + 13y = 0, y(0) = 1, y'(0) = 0</h4>
+            <p>This is a damped spring-mass system released from displacement 1 with zero velocity.</p>
+            <p><strong>Step 1 — Transform:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                [s²Y − s·1 − 0] + 4[sY − 1] + 13Y = 0<br>
+                s²Y − s + 4sY − 4 + 13Y = 0
+            </p>
+            <p><strong>Step 2 — Solve:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                Y(s)(s² + 4s + 13) = s + 4<br>
+                Y(s) = (s + 4)/(s² + 4s + 13)
+            </p>
+            <p><strong>Complete the square:</strong> s² + 4s + 13 = (s+2)² + 9 = (s+2)² + 3²</p>
+            <p><strong>Rewrite numerator:</strong> s + 4 = (s+2) + 2</p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                Y(s) = (s+2)/[(s+2)²+9] + (2/3)·3/[(s+2)²+9]
+            </p>
+            <p><strong>Step 3 — Invert from table:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center; font-size: 1.1rem;">
+                y(t) = e<sup>−2t</sup>cos(3t) + (2/3)e<sup>−2t</sup>sin(3t)
+            </p>
+            <p>The system oscillates at 3 rad/s while decaying exponentially at rate 2. The oscillation dies out with time constant 1/2 = 0.5 seconds.</p>
+        </div>
+
+        <div class="analogy">
+            This solution describes a guitar string plucked and released — it vibrates (the sin and cos terms at frequency 3) while the amplitude fades (the e<sup>−2t</sup> envelope). The decay rate (2) and frequency (3) came directly from the polynomial s² + 4s + 13 — its roots −2 ± 3j encode both the frequency and the damping in their real and imaginary parts.
+        </div>
+
+        <h2>Example 3: Forced System with Discontinuous Input</h2>
+
+        <div class="explanation">
+            <h4>Problem: y'' + y = u(t−π), y(0) = 0, y'(0) = 1</h4>
+            <p>A harmonic oscillator hit by a unit step at t = π. Classical methods struggle with the discontinuity — Laplace handles it effortlessly.</p>
+            <p><strong>Step 1 — Transform:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                [s²Y − 0 − 1] + Y = e<sup>−πs</sup>/s
+            </p>
+            <p><strong>Step 2 — Solve:</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                Y(s) = 1/(s²+1) + e<sup>−πs</sup>/[s(s²+1)]
+            </p>
+            <p><strong>Partial fractions for the second term:</strong> 1/[s(s²+1)] = 1/s − s/(s²+1)</p>
+            <p><strong>Step 3 — Invert (using time-shift property for e<sup>−πs</sup> terms):</strong></p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center; font-size: 1.1rem;">
+                y(t) = sin(t) + u(t−π)·[1 − cos(t−π)]
+            </p>
+            <p>For t < π: y = sin(t) (free oscillation from initial velocity). For t ≥ π: the step force pushes the oscillator to a new equilibrium at y = 1, around which it oscillates.</p>
+        </div>
+
+        <h2>Why Laplace Beats Classical Methods</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Classical Methods</th>
+                    <th>Laplace Transform</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Initial conditions</td>
+                    <td>Find general solution first, then fit</td>
+                    <td>Built into Step 1 automatically</td>
+                </tr>
+                <tr>
+                    <td>Discontinuous forcing</td>
+                    <td>Solve in pieces, match at boundaries</td>
+                    <td>Handled by e<sup>−as</sup> factors — seamless</td>
+                </tr>
+                <tr>
+                    <td>Impulse forcing δ(t)</td>
+                    <td>Requires distribution theory</td>
+                    <td>δ(t) → 1 — completely natural</td>
+                </tr>
+                <tr>
+                    <td>Systems of ODEs</td>
+                    <td>Eigenvalue/eigenvector method</td>
+                    <td>Algebraic elimination or Cramer's rule</td>
+                </tr>
+                <tr>
+                    <td>Convolution integrals</td>
+                    <td>Must evaluate directly</td>
+                    <td>Product in s-domain: F·G → f*g</td>
+                </tr>
+                <tr>
+                    <td>Physical insight</td>
+                    <td>Solution tells you what happens</td>
+                    <td>Poles tell you WHY (natural modes)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Systems of ODEs</h2>
+
+        <div class="explanation">
+            <h4>Multiple equations at once</h4>
+            <p>For a system of n coupled ODEs, the Laplace Transform converts each equation into an algebraic equation in the n unknowns Y₁(s), ..., Yₙ(s). You solve the resulting linear system (Cramer's rule, elimination, or matrix inversion) and invert each component separately.</p>
+            <p><strong>Example:</strong> Two coupled tanks:</p>
+            <p style="font-family: monospace; text-align: center;">
+                x' = −3x + y,  x(0) = 2<br>
+                y' = x − 3y,   y(0) = 0
+            </p>
+            <p>Transform: sX − 2 = −3X + Y and sY = X − 3Y</p>
+            <p>Solve: (s+3)X − Y = 2 and −X + (s+3)Y = 0</p>
+            <p>From the second equation: X = (s+3)Y. Substitute: (s+3)²Y − Y = 2, giving Y = 2/[(s+3)²−1] = 2/[(s+2)(s+4)]</p>
+            <p>Partial fractions and inversion gives:</p>
+            <p style="font-family: monospace; color: var(--gold); text-align: center;">
+                x(t) = e<sup>−2t</sup> + e<sup>−4t</sup><br>
+                y(t) = e<sup>−2t</sup> − e<sup>−4t</sup>
+            </p>
+        </div>
+
+        <h2>Integro-Differential Equations</h2>
+
+        <div class="explanation">
+            <h4>Equations with both derivatives and integrals</h4>
+            <p>Some physical systems (particularly electrical circuits) naturally produce equations with both derivatives and integrals of the unknown. Classical methods require differentiating the whole equation to remove the integral — adding an order and requiring extra initial conditions.</p>
+            <p>Laplace handles both simultaneously: derivatives give multiplication by s, integrals give division by s. No extra manipulation needed.</p>
+        </div>
+
+        <div class="formula">
+            y'(t) + 2y(t) + 3∫₀ᵗ y(τ)dτ = e^(−t), y(0) = 1
+            <span class="description">An integro-differential equation — straightforward with Laplace</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Solution</h4>
+            <p>Transform: [sY − 1] + 2Y + 3Y/s = 1/(s+1)</p>
+            <p>Multiply through by s: s²Y − s + 2sY + 3Y = s/(s+1)</p>
+            <p>Y(s²+2s+3) = s + s/(s+1) = s(s+2)/(s+1)</p>
+            <p>Y = s(s+2)/[(s+1)(s²+2s+3)] = s(s+2)/[(s+1)((s+1)²+2)]</p>
+            <p>Partial fractions and completing the square yields the damped oscillatory solution.</p>
+        </div>
+
+        <div class="question-box">
+            <h4>Frontiers</h4>
+            <ul>
+                <li>Can the Laplace method be extended to nonlinear ODEs in any systematic way, or is linearity fundamentally required?</li>
+                <li>For fractional-order differential equations (with d<sup>α</sup>/dt<sup>α</sup> where α is not integer), does the Laplace method generalise cleanly?</li>
+                <li>Are there classes of PDEs where a "Laplace-like" transform in one variable reduces them to ODEs that can be solved systematically?</li>
+            </ul>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The Laplace Transform as a universal solver architecture</h4>
+            <p>The three-step method (transform → algebra → invert) is actually an instance of a much deeper pattern in mathematics: solve hard problems by mapping them to an easier domain. Logarithms map multiplication to addition. The Fourier Transform maps convolution to multiplication. Group representations map abstract algebra to linear algebra. In each case, the "transform" finds a domain where the operation of interest becomes trivial.</p>
+            <p>The Laplace Transform's specific genius is mapping differentiation (which is hard — it introduces initial conditions, requires smoothness, compounds errors) to multiplication by s (which is trivial). The cost is inversion — getting back from s-domain. But since the inversion is routine (partial fractions), the trade is enormously favourable.</p>
+            <p class="caveat">This "transform to easy domain" pattern works spectacularly for linear problems. For genuinely nonlinear ODEs (where the superposition principle fails), no comparable universal simplification is known — this is arguably why nonlinear dynamics remains fundamentally harder.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="inverse.html">← Inverse Transform</a>
+            <a href="control.html">Control Systems →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

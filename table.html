@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transform Pairs — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html" class="active">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Transform Pairs</h1>
+        <p class="subtitle">The lookup table every engineer memorises</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">~20</span>
+                <span class="stat-label">essential pairs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">to memorise cold</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">derivable from those 5</span>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h4>How to use this table</h4>
+            <p>In practice, you almost never compute a Laplace Transform from the integral. Instead, you decompose your function using linearity, shifting, and differentiation properties, then look up the elementary pieces here. Going the other direction (inverse transform), you use partial fractions to break F(s) into pieces that match entries in this table.</p>
+            <p>The <strong>five essential pairs</strong> — marked with ★ — are the ones to memorise. Every other entry can be derived from them using the properties on the previous page.</p>
+        </div>
+
+        <h2>The Essential Five ★</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>f(t), t ≥ 0</th>
+                    <th>F(s) = ℒ{f(t)}</th>
+                    <th>ROC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>★ 1 (constant)</td>
+                    <td>1/s</td>
+                    <td>Re(s) > 0</td>
+                </tr>
+                <tr>
+                    <td>★ t</td>
+                    <td>1/s²</td>
+                    <td>Re(s) > 0</td>
+                </tr>
+                <tr>
+                    <td>★ e<sup>−at</sup></td>
+                    <td>1/(s + a)</td>
+                    <td>Re(s) > −a</td>
+                </tr>
+                <tr>
+                    <td>★ sin(ωt)</td>
+                    <td>ω/(s² + ω²)</td>
+                    <td>Re(s) > 0</td>
+                </tr>
+                <tr>
+                    <td>★ cos(ωt)</td>
+                    <td>s/(s² + ω²)</td>
+                    <td>Re(s) > 0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="analogy">
+            These five are like the primary colours of the Laplace world. Just as every colour is a mix of red, green, and blue, every rational function F(s) decomposes into pieces that are shifts and combinations of 1/s, 1/s², 1/(s+a), ω/(s²+ω²), and s/(s²+ω²). Know these five and you can invert anything.
+        </div>
+
+        <h2>Powers and Polynomials</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>f(t)</th>
+                    <th>F(s)</th>
+                    <th>Derivation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>tⁿ</td>
+                    <td>n!/s<sup>n+1</sup></td>
+                    <td>Repeated differentiation in s of ℒ{1}</td>
+                </tr>
+                <tr>
+                    <td>t<sup>n</sup>e<sup>−at</sup></td>
+                    <td>n!/(s+a)<sup>n+1</sup></td>
+                    <td>Frequency shift of ℒ{tⁿ}</td>
+                </tr>
+                <tr>
+                    <td>t<sup>1/2</sup></td>
+                    <td>√π / (2s<sup>3/2</sup>)</td>
+                    <td>From Gamma function: Γ(3/2) = √π/2</td>
+                </tr>
+                <tr>
+                    <td>t<sup>α</sup> (α > −1)</td>
+                    <td>Γ(α+1) / s<sup>α+1</sup></td>
+                    <td>General formula via Gamma function</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="explanation">
+            <h4>The pattern</h4>
+            <p>Powers of t always give powers of 1/s. The factorial n! comes from repeated integration by parts (or equivalently, repeated differentiation of 1/s in the s-variable). The Gamma function Γ(α+1) generalises the factorial to non-integer powers.</p>
+        </div>
+
+        <h2>Exponentials and Damped Oscillations</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>f(t)</th>
+                    <th>F(s)</th>
+                    <th>Derivation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>e<sup>−at</sup>sin(ωt)</td>
+                    <td>ω / ((s+a)² + ω²)</td>
+                    <td>Frequency shift of ℒ{sin(ωt)}</td>
+                </tr>
+                <tr>
+                    <td>e<sup>−at</sup>cos(ωt)</td>
+                    <td>(s+a) / ((s+a)² + ω²)</td>
+                    <td>Frequency shift of ℒ{cos(ωt)}</td>
+                </tr>
+                <tr>
+                    <td>t·e<sup>−at</sup>sin(ωt)</td>
+                    <td>2ω(s+a) / ((s+a)² + ω²)²</td>
+                    <td>s-differentiation of above</td>
+                </tr>
+                <tr>
+                    <td>t·e<sup>−at</sup>cos(ωt)</td>
+                    <td>((s+a)² − ω²) / ((s+a)² + ω²)²</td>
+                    <td>s-differentiation of above</td>
+                </tr>
+                <tr>
+                    <td>sinh(at)</td>
+                    <td>a / (s² − a²)</td>
+                    <td>From sinh = (e<sup>at</sup> − e<sup>−at</sup>)/2</td>
+                </tr>
+                <tr>
+                    <td>cosh(at)</td>
+                    <td>s / (s² − a²)</td>
+                    <td>From cosh = (e<sup>at</sup> + e<sup>−at</sup>)/2</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="explanation">
+            <h4>The frequency-shift trick</h4>
+            <p>Every damped oscillation e<sup>−at</sup>·(sin or cos) is obtained from the undamped case by replacing s with (s+a). This is the frequency-shift property in action. Memorise sin and cos, and you get all damped versions for free.</p>
+        </div>
+
+        <div class="analogy">
+            Damped oscillations are like a bell ringing after being struck — the tone (ω) stays the same but the volume (e<sup>−at</sup>) fades. In the s-domain, this appears as the same formula shifted left by 'a' — the decay rate literally moves the pole away from the imaginary axis, deeper into the stable left half-plane.
+        </div>
+
+        <h2>Special Functions</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>f(t)</th>
+                    <th>F(s)</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>δ(t) (Dirac delta)</td>
+                    <td>1</td>
+                    <td>The transform of "everything at once"</td>
+                </tr>
+                <tr>
+                    <td>u(t) (unit step)</td>
+                    <td>1/s</td>
+                    <td>Same as ℒ{1} — step "turns on" the constant</td>
+                </tr>
+                <tr>
+                    <td>u(t−a) (delayed step)</td>
+                    <td>e<sup>−as</sup>/s</td>
+                    <td>Time-shift property applied to u(t)</td>
+                </tr>
+                <tr>
+                    <td>δ(t−a) (delayed impulse)</td>
+                    <td>e<sup>−as</sup></td>
+                    <td>Time-shift of δ(t)</td>
+                </tr>
+                <tr>
+                    <td>t<sup>−1/2</sup></td>
+                    <td>√(π/s)</td>
+                    <td>From Γ(1/2) = √π</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="explanation">
+            <h4>The impulse — identity of convolution</h4>
+            <p>The Dirac delta δ(t) transforms to simply 1. This makes sense through the convolution theorem: convolving any signal with δ(t) returns the signal unchanged (f * δ = f), which in the s-domain becomes F(s)·1 = F(s). The impulse is the identity element under convolution, and its transform is the identity under multiplication.</p>
+        </div>
+
+        <h2>Periodic Functions</h2>
+
+        <div class="formula">
+            ℒ{f(t)} = [1/(1 − e^(−Ts))] · ∫₀ᵀ f(t)·e^(−st) dt
+            <span class="description">For f(t) periodic with period T — integrate one period, multiply by the geometric sum</span>
+        </div>
+
+        <div class="explanation">
+            <h4>The periodic shortcut</h4>
+            <p>For any periodic function, you only need to compute the integral over ONE period. The factor 1/(1−e<sup>−Ts</sup>) accounts for all the infinite repetitions — it's the sum of a geometric series of delayed copies. This is enormously practical for square waves, sawtooth waves, and other periodic signals.</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>f(t)</th>
+                    <th>F(s)</th>
+                    <th>Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Square wave (amplitude A, period 2T)</td>
+                    <td>(A/s) · tanh(Ts/2)</td>
+                    <td>2T</td>
+                </tr>
+                <tr>
+                    <td>Sawtooth (slope 1, period T)</td>
+                    <td>(1/s²) − T·e<sup>−Ts</sup> / (s(1−e<sup>−Ts</sup>))</td>
+                    <td>T</td>
+                </tr>
+                <tr>
+                    <td>Full-wave rectified sin</td>
+                    <td>(ω/(s²+ω²)) · coth(πs/(2ω))</td>
+                    <td>π/ω</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Memory Tricks</h2>
+
+        <div class="explanation">
+            <h4>Patterns to remember</h4>
+            <p><strong>Denominator tells the story:</strong> (s+a) in the denominator means exponential decay at rate a. (s²+ω²) means oscillation at frequency ω. Combine them: (s+a)²+ω² means damped oscillation.</p>
+            <p><strong>Numerator picks sin vs cos:</strong> For quadratic denominators (s²+ω²), numerator ω gives sin, numerator s gives cos. This follows from sin starting at zero (needs the ω to "turn on") while cos starts at 1 (needs the s to match).</p>
+            <p><strong>Powers of s in denominator give powers of t:</strong> 1/s → 1, 1/s² → t, 1/s³ → t²/2, ... Each extra s in the denominator integrates once in time.</p>
+            <p><strong>Repeated roots give t-multiplication:</strong> 1/(s+a)² → te<sup>−at</sup>. Each repeated factor brings out another power of t.</p>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The table as a Rosetta Stone</h4>
+            <p>This table isn't just a computational shortcut — it's a dictionary between two fundamentally different ways of describing reality. The time domain asks "what happens moment by moment?" The s-domain asks "what exponential modes are present?" Every physical system speaks both languages simultaneously. A spring-mass system oscillating at 5 rad/s IS a pair of poles at s = ±5j — these aren't two descriptions of the same thing, they ARE the same thing seen from two angles. The table maps between those angles.</p>
+            <p class="caveat">This "two languages for one reality" view is standard in signal processing, but whether it implies something ontological about nature (that frequency-domain and time-domain are equally "real") or is merely a mathematical convenience remains a philosophical question with no consensus answer.</p>
+        </div>
+
+        <div class="question-box">
+            <h4>Interesting Questions</h4>
+            <ul>
+                <li>Is there a compact closed-form transform for every elementary function, or do some require infinite series representations in the s-domain?</li>
+                <li>What is the "simplest" set of base pairs from which all others can be derived using properties alone?</li>
+                <li>Can machine learning discover new transform pairs or properties that humans haven't noticed?</li>
+            </ul>
+        </div>
+
+        <div class="page-nav">
+            <a href="properties.html">← Properties</a>
+            <a href="inverse.html">Inverse Transform →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

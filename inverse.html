@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inverse Transform — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html" class="active">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>The Inverse Transform</h1>
+        <p class="subtitle">Getting back from s-domain to time</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">3</span>
+                <span class="stat-label">main methods</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">#1</span>
+                <span class="stat-label">partial fractions</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">99%</span>
+                <span class="stat-label">solved by table lookup</span>
+            </div>
+        </div>
+
+        <h2>The Formal Inversion</h2>
+
+        <div class="formula">
+            f(t) = ℒ⁻¹{F(s)} = (1/2πj) ∮ F(s) · e^(st) ds
+            <span class="description">The Bromwich integral — a contour integral in the complex s-plane</span>
+        </div>
+
+        <div class="explanation">
+            <h4>You almost never use this directly</h4>
+            <p>The Bromwich integral is the formal inverse — a contour integration along a vertical line in the complex plane (from σ−j∞ to σ+j∞, where σ is to the right of all singularities). It's the theoretical foundation that proves the inverse exists and is unique. But in practice, engineers use three far simpler methods.</p>
+        </div>
+
+        <div class="analogy">
+            The Bromwich integral is like knowing that you can theoretically disassemble a car into atoms and reassemble them. True, but impractical. In practice, you use the service manual (table lookup), swap modules (partial fractions), or in rare cases, manufacture a custom part (residue calculus). Same destination, very different effort.
+        </div>
+
+        <h2>Method 1: Partial Fraction Decomposition</h2>
+
+        <div class="explanation">
+            <h4>The workhorse method — covers 95% of problems</h4>
+            <p>If F(s) is a ratio of polynomials (a "rational function"), you can always decompose it into a sum of simple fractions that appear directly in the transform table. This is the method taught in every engineering course, and it works for every transfer function you'll encounter in practice.</p>
+        </div>
+
+        <h3>Case 1: Distinct Real Poles</h3>
+
+        <div class="formula">
+            F(s) = N(s)/[(s+a)(s+b)(s+c)] = A/(s+a) + B/(s+b) + C/(s+c)
+            <span class="description">Each simple pole gives one exponential term in the time domain</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Finding the coefficients — Cover-up method</h4>
+            <p>To find coefficient A (the residue at s = −a): "cover up" the (s+a) factor and evaluate the rest at s = −a:</p>
+            <p style="text-align: center; font-family: monospace; color: var(--gold);">A = N(−a) / [(−a+b)(−a+c)]</p>
+            <p>This is Heaviside's cover-up method — fast, mechanical, and infallible for simple poles.</p>
+            <p><strong>Result:</strong> f(t) = A·e<sup>−at</sup> + B·e<sup>−bt</sup> + C·e<sup>−ct</sup></p>
+        </div>
+
+        <h3>Case 2: Repeated Real Poles</h3>
+
+        <div class="formula">
+            F(s) = N(s)/(s+a)³ = A/(s+a) + B/(s+a)² + C/(s+a)³
+            <span class="description">A pole of multiplicity n gives terms with 1/(s+a), 1/(s+a)², ..., 1/(s+a)ⁿ</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Finding coefficients for repeated poles</h4>
+            <p>Start with the highest power. To find C (coefficient of 1/(s+a)³): multiply both sides by (s+a)³ and evaluate at s = −a.</p>
+            <p>To find B: multiply by (s+a)³, differentiate once with respect to s, then evaluate at s = −a.</p>
+            <p>To find A: multiply by (s+a)³, differentiate twice, evaluate at s = −a, and divide by 2!.</p>
+            <p><strong>Result:</strong> f(t) = A·e<sup>−at</sup> + B·t·e<sup>−at</sup> + C·(t²/2)·e<sup>−at</sup></p>
+        </div>
+
+        <div class="analogy">
+            Repeated poles are like repeated roots of a polynomial — they signal a richer structure. A simple pole gives pure exponential decay (like one ball falling). A double pole gives t·e<sup>−at</sup> — the system "remembers" it was at a special point and responds with an extra factor of time. Triple poles give t², and so on. In physical systems, repeated poles mean you're exactly on the boundary between two behaviours — critically damped, perfectly balanced.
+        </div>
+
+        <h3>Case 3: Complex Conjugate Poles</h3>
+
+        <div class="formula">
+            F(s) = N(s)/[(s+a)² + ω²]
+            <span class="description">Complex poles at s = −a ± jω give damped sinusoids</span>
+        </div>
+
+        <div class="explanation">
+            <h4>The oscillatory case</h4>
+            <p>Complex poles always come in conjugate pairs (because the polynomial has real coefficients). A pair at s = −a ± jω produces:</p>
+            <p style="text-align: center; font-family: monospace; color: var(--gold);">f(t) = K·e<sup>−at</sup>·sin(ωt + φ)</p>
+            <p>The real part 'a' gives the decay rate, the imaginary part 'ω' gives the oscillation frequency, and K and φ come from the numerator.</p>
+            <p><strong>Practical approach:</strong> Complete the square in the denominator to get the form (s+a)²+ω², then match against the table entries for e<sup>−at</sup>sin(ωt) and e<sup>−at</sup>cos(ωt).</p>
+        </div>
+
+        <h3>Case 4: Improper Fractions</h3>
+
+        <div class="explanation">
+            <h4>When degree of numerator ≥ degree of denominator</h4>
+            <p>If the numerator's degree equals or exceeds the denominator's, first do polynomial long division to extract a polynomial quotient plus a proper remainder. The polynomial part transforms to impulses and their derivatives (δ(t), δ'(t), ...). The proper remainder uses standard partial fractions.</p>
+        </div>
+
+        <h2>Method 2: Residue Calculus</h2>
+
+        <div class="formula">
+            f(t) = Σ [Residues of F(s)·e^(st) at all poles of F(s)]
+            <span class="description">The inverse transform equals the sum of residues — valid for rational F(s)</span>
+        </div>
+
+        <div class="explanation">
+            <h4>When partial fractions get tedious</h4>
+            <p>For simple poles, the residue at s = p is: Res = lim[s→p] (s−p)·F(s)·e<sup>pt</sup></p>
+            <p>For a pole of order n at s = p: Res = (1/(n−1)!) · lim[s→p] d<sup>n−1</sup>/ds<sup>n−1</sup> [(s−p)<sup>n</sup>·F(s)·e<sup>st</sup>]</p>
+            <p>This is mathematically equivalent to partial fractions but can be faster for high-order systems with many distinct poles. It's the method used in complex analysis courses and in theoretical derivations.</p>
+        </div>
+
+        <h2>Method 3: Convolution</h2>
+
+        <div class="formula">
+            If F(s) = F₁(s) · F₂(s), then f(t) = f₁(t) * f₂(t) = ∫₀ᵗ f₁(τ)·f₂(t−τ) dτ
+            <span class="description">Factor F(s) into known pieces, convolve their inverses</span>
+        </div>
+
+        <div class="explanation">
+            <h4>When factoring is easier than partial fractions</h4>
+            <p>Sometimes F(s) is most naturally expressed as a product of simpler functions whose inverse transforms you know. Rather than expanding into partial fractions, you can directly convolve the time-domain signals. This is especially useful when one factor is simple (like 1/s, which corresponds to integration) or when F(s) involves transcendental functions like e<sup>−as</sup>.</p>
+        </div>
+
+        <h2>Worked Example</h2>
+
+        <div class="explanation">
+            <h4>Invert F(s) = (3s + 5) / (s² + 4s + 13)</h4>
+            <p><strong>Step 1:</strong> Complete the square in the denominator:<br>
+            s² + 4s + 13 = (s+2)² + 9 = (s+2)² + 3²</p>
+            <p>So the poles are at s = −2 ± 3j. This is a damped oscillation with a = 2, ω = 3.</p>
+            <p><strong>Step 2:</strong> Rewrite the numerator in terms of (s+2):<br>
+            3s + 5 = 3(s+2) − 1</p>
+            <p><strong>Step 3:</strong> Split into recognisable forms:<br>
+            F(s) = 3(s+2)/[(s+2)²+9] − 1/[(s+2)²+9]<br>
+            = 3(s+2)/[(s+2)²+9] − (1/3)·3/[(s+2)²+9]</p>
+            <p><strong>Step 4:</strong> Read from table:<br>
+            f(t) = 3e<sup>−2t</sup>cos(3t) − (1/3)e<sup>−2t</sup>sin(3t)</p>
+            <p style="text-align: center; font-family: monospace; color: var(--gold);">f(t) = e<sup>−2t</sup>[3cos(3t) − (1/3)sin(3t)]</p>
+        </div>
+
+        <h2>Common Pitfalls</h2>
+
+        <div class="explanation">
+            <h4>Mistakes to avoid</h4>
+            <p><strong>Forgetting to check degree:</strong> Always verify deg(numerator) < deg(denominator) before decomposing. If not, do long division first.</p>
+            <p><strong>Missing the conjugate:</strong> Complex poles always come in pairs. If you have a pole at −2+3j, there's always one at −2−3j. A single complex residue gives the wrong answer — you need both.</p>
+            <p><strong>Wrong sign in cover-up:</strong> The pole of 1/(s+a) is at s = −a (negative!). Substituting s = +a gives the wrong coefficient.</p>
+            <p><strong>Ignoring the ROC:</strong> For the one-sided transform with causal functions, the ROC is always to the right of the rightmost pole, and all terms decay. But for the two-sided transform, the same F(s) can have different inverses depending on which ROC is specified.</p>
+        </div>
+
+        <div class="question-box">
+            <h4>Open Questions</h4>
+            <ul>
+                <li>For irrational transfer functions (like those with √s from diffusion), is there a systematic "partial fractions" equivalent?</li>
+                <li>Can symbolic algebra systems always find closed-form inverses, or are there rational functions whose inverse requires special functions?</li>
+                <li>What is the computational complexity of partial fraction decomposition as the polynomial degree grows?</li>
+            </ul>
+        </div>
+
+        <div class="speculation-box">
+            <h4>The inverse transform as spectral synthesis</h4>
+            <p>The Bromwich integral is doing something beautiful: it's summing up infinitely many complex exponentials e<sup>st</sup>, each weighted by F(s), along a vertical line in the s-plane. This is spectral synthesis — reconstructing a signal from its frequency components. The "partial fractions" shortcut works because rational F(s) has only finitely many poles, so the infinite sum collapses to a finite sum of residues. Nature rewards you for studying linear systems: finite-dimensional linear systems always have finitely many modes, so the infinite integral always simplifies.</p>
+            <p class="caveat">Infinite-dimensional linear systems (PDEs, delay equations) can have infinitely many poles, and their inverse transforms genuinely require the full Bromwich integral or series representations. The finiteness is a property of ODEs specifically.</p>
+        </div>
+
+        <div class="page-nav">
+            <a href="table.html">← Transform Pairs</a>
+            <a href="diffeq.html">Diff Equations →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

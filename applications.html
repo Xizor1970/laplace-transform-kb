@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html" class="active">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Applications</h1>
+        <p class="subtitle">Where the mathematics meets the physical world</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">6+</span>
+                <span class="stat-label">major domains</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">V = IR</span>
+                <span class="stat-label">circuit analogy</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10⁹+</span>
+                <span class="stat-label">devices designed with it</span>
+            </div>
+        </div>
+
+        <h2>Electrical Circuits</h2>
+
+        <div class="explanation">
+            <h4>The original killer app</h4>
+            <p>The Laplace Transform was adopted by electrical engineers before any other discipline because circuit elements have beautifully simple s-domain representations:</p>
+            <p><strong>Resistor:</strong> V(s) = R · I(s) — unchanged (purely algebraic already)<br>
+            <strong>Capacitor:</strong> V(s) = I(s) / (sC) — impedance is 1/(sC)<br>
+            <strong>Inductor:</strong> V(s) = sL · I(s) — impedance is sL</p>
+            <p>In the s-domain, every circuit becomes a network of impedances. You can use Ohm's law, voltage dividers, and Kirchhoff's laws exactly as in DC circuits — just with complex impedances instead of resistances. The entire theory of AC circuits, transient analysis, and filter design flows from this.</p>
+        </div>
+
+        <div class="formula">
+            Z_R = R,  Z_C = 1/(sC),  Z_L = sL
+            <span class="description">Replace every component with its s-domain impedance, then analyse as if DC</span>
+        </div>
+
+        <div class="analogy">
+            An electrical circuit in the s-domain is like a plumbing system where every pipe has a "flow resistance" that depends on how fast the pressure oscillates. A capacitor is a flexible membrane (easy at DC, stiff at high frequency). An inductor is a heavy water wheel (resists change, easy at steady state). The Laplace variable s encodes both the DC and oscillatory behaviour simultaneously.
+        </div>
+
+        <div class="explanation">
+            <h4>Example: RLC Series Circuit</h4>
+            <p>For a series RLC circuit with input voltage V<sub>in</sub>(t) and output across the capacitor:</p>
+        </div>
+
+        <div class="formula">
+            H(s) = V_out/V_in = 1/(LCs² + RCs + 1) = ωₙ²/(s² + 2ζωₙs + ωₙ²)
+            <span class="description">where ωₙ = 1/√(LC) and ζ = R/(2)·√(C/L) — natural frequency and damping ratio</span>
+        </div>
+
+        <div class="explanation">
+            <p>This is a second-order low-pass filter. The poles are at s = −ζωₙ ± ωₙ√(ζ²−1). Three regimes:</p>
+            <p>• <strong>Overdamped (ζ > 1):</strong> Two real poles. Output rises sluggishly to final value. (Large R)<br>
+            • <strong>Critically damped (ζ = 1):</strong> Repeated real pole. Fastest response without overshoot.<br>
+            • <strong>Underdamped (ζ < 1):</strong> Complex poles. Output oscillates before settling. (Small R)</p>
+        </div>
+
+        <h2>Mechanical Systems</h2>
+
+        <div class="explanation">
+            <h4>The exact same mathematics in a different physical costume</h4>
+            <p>Mechanical systems (spring-mass-damper) are mathematically identical to RLC circuits. The Laplace Transform treats them identically:</p>
+            <p><strong>Mass (m):</strong> Force = m·a → F(s) = ms²·X(s) — analogous to inductor<br>
+            <strong>Damper (b):</strong> Force = b·v → F(s) = bs·X(s) — analogous to resistor<br>
+            <strong>Spring (k):</strong> Force = k·x → F(s) = k·X(s) — analogous to capacitor (1/C)</p>
+        </div>
+
+        <div class="formula">
+            H(s) = X(s)/F(s) = 1/(ms² + bs + k)
+            <span class="description">Displacement per unit force — the mechanical transfer function</span>
+        </div>
+
+        <div class="explanation">
+            <h4>Applications in mechanical engineering</h4>
+            <p><strong>Vehicle suspension:</strong> Design the damping ratio for comfort (ζ ≈ 0.3–0.5 for passenger cars). The transfer function from road profile to chassis motion directly gives ride quality metrics.</p>
+            <p><strong>Vibration isolation:</strong> Mount sensitive equipment on springs/dampers tuned so the transfer function has a notch at the disturbance frequency. Used for telescope mounts, semiconductor fabrication, and MRI machines.</p>
+            <p><strong>Earthquake engineering:</strong> Model buildings as multi-mass-spring systems. The s-domain analysis reveals which floors oscillate most (resonant modes) and where to add dampers.</p>
+        </div>
+
+        <div class="analogy">
+            The fact that electrical and mechanical systems share the same transfer functions isn't coincidence — it's because both obey linear differential equations with the same mathematical structure. A mass on a spring IS an LC circuit, mathematically. This is why analogue computers (built from op-amp circuits) could simulate mechanical systems perfectly — the electrons and the masses were solving the same equation.
+        </div>
+
+        <h2>Signal Processing</h2>
+
+        <div class="explanation">
+            <h4>Filter design — shaping frequency content</h4>
+            <p>Every audio filter, radio receiver, noise canceller, and equalizer is designed using the Laplace Transform (or its discrete counterpart, the Z-Transform). The goal: create a transfer function H(s) that passes desired frequencies and blocks undesired ones.</p>
+            <p><strong>Low-pass:</strong> H(s) has poles near the imaginary axis at low frequencies, zeros or roll-off at high frequencies. Passes bass, blocks treble.<br>
+            <strong>High-pass:</strong> Zero at s = 0 (blocks DC), poles at higher frequencies. Passes treble, blocks bass.<br>
+            <strong>Band-pass:</strong> Poles near ±jω₀ (resonance), zeros at 0 and ∞. Passes only a band around ω₀.<br>
+            <strong>Notch (band-stop):</strong> Zeros on imaginary axis at ±jω₀, poles nearby. Blocks exactly one frequency.</p>
+        </div>
+
+        <div class="explanation">
+            <h4>Classical filter families</h4>
+            <p><strong>Butterworth:</strong> Maximally flat magnitude in the passband. Poles evenly spaced on a semicircle. Good general-purpose choice.</p>
+            <p><strong>Chebyshev Type I:</strong> Equiripple in passband, monotone in stopband. Sharper roll-off than Butterworth for the same order, but has passband ripple.</p>
+            <p><strong>Bessel:</strong> Maximally flat group delay — preserves waveform shape. Poles cluster on a shifted circle. Best for pulse transmission.</p>
+            <p><strong>Elliptic (Cauer):</strong> Equiripple in both passband and stopband. Sharpest possible transition band for a given order. Zeros on the imaginary axis.</p>
+            <p>All are specified entirely by their pole-zero patterns in the s-plane.</p>
+        </div>
+
+        <h2>Heat Transfer and Diffusion</h2>
+
+        <div class="explanation">
+            <h4>When the Laplace Transform meets PDEs</h4>
+            <p>The heat equation ∂T/∂t = α·∂²T/∂x² is a PDE — partial derivatives in both time and space. Taking the Laplace Transform in time converts it to an ODE in x:</p>
+        </div>
+
+        <div class="formula">
+            s·T̄(x,s) − T(x,0) = α · d²T̄/dx²
+            <span class="description">The PDE in time becomes an ODE in space — solvable by standard methods</span>
+        </div>
+
+        <div class="explanation">
+            <p>This is a second-order ODE in x with solutions involving e<sup>±√(s/α)·x</sup>. Apply boundary conditions, solve for T̄(x,s), and invert. The √s in the exponent means the transfer function is irrational — inversion requires the error function erf(x) rather than simple exponentials.</p>
+            <p><strong>Applications:</strong> Thermal design of electronic chips, building insulation, geological temperature profiles, casting and welding thermal analysis.</p>
+        </div>
+
+        <h2>Fluid Dynamics and Hydraulics</h2>
+
+        <div class="explanation">
+            <h4>Tank levels, pipe flow, and hydraulic systems</h4>
+            <p>Fluid systems with laminar flow are often linear enough for Laplace analysis:</p>
+            <p><strong>Tank level control:</strong> dh/dt = (Q_in − Q_out)/A. With linearised valve equations, this gives first-order transfer functions. Multiple coupled tanks give higher-order systems.</p>
+            <p><strong>Hydraulic actuators:</strong> Combine fluid compressibility (capacitance), pipe resistance, and piston inertia. The transfer function from valve position to actuator position is typically third or fourth order.</p>
+            <p><strong>Water hammer:</strong> Sudden valve closure creates pressure waves — modelled by the wave equation, solved via Laplace Transform in time with travelling wave solutions in space.</p>
+        </div>
+
+        <h2>Pharmacokinetics</h2>
+
+        <div class="explanation">
+            <h4>Drug concentration modelling</h4>
+            <p>The body's absorption, distribution, and elimination of drugs follows compartmental models — systems of first-order ODEs identical in structure to coupled RC circuits:</p>
+            <p><strong>One-compartment model:</strong> dC/dt = −k·C (first-order elimination) → C(s) = C₀/(s+k). Half-life = ln(2)/k.</p>
+            <p><strong>Two-compartment model:</strong> Drug distributes between blood (central) and tissue (peripheral) — two coupled ODEs giving a biexponential response with fast distribution phase and slow elimination phase.</p>
+            <p>Transfer functions from drug input to plasma concentration guide dosing regimens: how much, how often, and whether to use loading doses.</p>
+        </div>
+
+        <div class="analogy">
+            A two-compartment drug model is electrically equivalent to two RC circuits connected by a resistor — the "blood" capacitor (high flow, small volume) charges fast, then slowly equalises with the "tissue" capacitor (large volume, slow exchange). This analogy is so exact that pharmacologists literally use circuit simulators to model drug kinetics.
+        </div>
+
+        <h2>Economics and Finance</h2>
+
+        <div class="explanation">
+            <h4>Continuous-time models of growth and feedback</h4>
+            <p>Some economic models use continuous-time differential equations that yield to Laplace analysis:</p>
+            <p><strong>Multiplier-accelerator models:</strong> National income Y(t) satisfies a second-order ODE coupling consumption (proportional to Y) and investment (proportional to dY/dt). Oscillatory solutions explain business cycles.</p>
+            <p><strong>Control theory in economics:</strong> Central bank interest rate policy as a feedback controller — the "plant" is the economy, the "sensor" is inflation measurement, and the "controller" is the Taylor Rule. Laplace analysis reveals why overly aggressive policy causes oscillation.</p>
+            <p><strong>Option pricing:</strong> The Black-Scholes PDE can be solved via Laplace Transform in time, converting it to an ODE in the asset price variable.</p>
+        </div>
+
+        <h2>The Analogy Table</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Electrical</th>
+                    <th>Mechanical (translation)</th>
+                    <th>Hydraulic</th>
+                    <th>Thermal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Voltage V</td>
+                    <td>Force F</td>
+                    <td>Pressure P</td>
+                    <td>Temperature T</td>
+                </tr>
+                <tr>
+                    <td>Current I</td>
+                    <td>Velocity v</td>
+                    <td>Flow rate Q</td>
+                    <td>Heat flow q</td>
+                </tr>
+                <tr>
+                    <td>Resistance R</td>
+                    <td>Damping b</td>
+                    <td>Flow resistance</td>
+                    <td>Thermal resistance</td>
+                </tr>
+                <tr>
+                    <td>Capacitance C</td>
+                    <td>Compliance 1/k</td>
+                    <td>Tank area A</td>
+                    <td>Thermal capacity mc</td>
+                </tr>
+                <tr>
+                    <td>Inductance L</td>
+                    <td>Mass m</td>
+                    <td>Fluid inertia</td>
+                    <td>(no direct analogue)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="speculation-box">
+            <h4>Why one mathematics governs so many domains</h4>
+            <p>The fact that circuits, springs, fluids, thermal systems, and drug kinetics all share the same transfer functions isn't a superficial resemblance — it reflects that they all obey conservation laws (energy, mass, momentum) expressed as linear differential equations. The Laplace Transform doesn't care what's being conserved or transported; it only sees the mathematical structure. This universality is why an electrical engineer can design a controller for a chemical plant without knowing chemistry — the s-domain abstraction strips away the physics and exposes only the dynamics.</p>
+            <p class="caveat">This universality holds only within the linear approximation. Each domain has its own nonlinearities (saturation, turbulence, reaction kinetics) that break the analogy. The Laplace Transform works where linearisation is valid — which, remarkably, is a large fraction of practical engineering.</p>
+        </div>
+
+        <div class="question-box">
+            <h4>Frontiers of Application</h4>
+            <ul>
+                <li>Can Laplace-domain methods be useful for neural network analysis — treating layers as "systems" and activations as "signals"?</li>
+                <li>Are there biological systems (gene regulatory networks, immune responses) where the linearity holds well enough for transfer function analysis?</li>
+                <li>Could quantum control problems benefit from a Laplace-like transform adapted to the Schrödinger equation's structure?</li>
+            </ul>
+        </div>
+
+        <div class="page-nav">
+            <a href="control.html">← Control Systems</a>
+            <a href="animations.html">Animations →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

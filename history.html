@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History & Origins — The Laplace Transform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home">&#x2112;</a>
+        <a href="history.html" class="active">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>History & Origins</h1>
+        <p class="subtitle">Two centuries from probability theory to engineering bedrock</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">1782</span>
+                <span class="stat-label">first publication</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1880s</span>
+                <span class="stat-label">Heaviside's operators</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1937</span>
+                <span class="stat-label">rigorous foundation</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">3</span>
+                <span class="stat-label">key figures</span>
+            </div>
+        </div>
+
+        <h2>Pierre-Simon Laplace (1749–1827)</h2>
+
+        <div class="explanation">
+            <h4>The Mathematician's Mathematician</h4>
+            <p>Pierre-Simon Laplace was one of the most influential scientists of his era — sometimes called the "French Newton." His five-volume <em>Mécanique Céleste</em> reformulated all of Newton's gravitational physics using calculus, and his work on probability theory laid foundations still used today.</p>
+            <p>The integral transform that bears his name first appeared in his 1782 paper <em>"Mémoire sur les suites"</em> — a work on generating functions and probability. Laplace wasn't trying to solve differential equations; he was trying to sum infinite series. The transform was a means to an end, a tool for computing probabilities of compound events.</p>
+        </div>
+
+        <div class="analogy">
+            Laplace discovering his transform while studying probability is like someone inventing the wheel while trying to move a single stone — the invention turned out to be vastly more important than the original problem. His generating function technique for discrete probability is essentially the z-transform, and extending it to continuous variables gives the Laplace Transform.
+        </div>
+
+        <div class="explanation">
+            <h4>The Political Survivor</h4>
+            <p>Laplace lived through the French Revolution, the Terror, Napoleon's rise and fall, and the Bourbon Restoration — serving each regime in turn. Napoleon made him Minister of the Interior (for six weeks — reportedly because he "brought the spirit of the infinitesimal into administration"). He was a senator under the Empire and a marquis under the restored monarchy.</p>
+            <p>When Napoleon asked why his <em>Mécanique Céleste</em> never mentioned God, Laplace famously replied: <em>"Sire, I had no need of that hypothesis."</em></p>
+        </div>
+
+        <h2>Leonhard Euler's Precursors (1730s–1770s)</h2>
+
+        <div class="explanation">
+            <h4>The Seeds of the Transform</h4>
+            <p>Even before Laplace, Euler was using integrals of the form ∫ f(t)·e<sup>−at</sup> dt to solve differential equations in the 1730s and 1740s. His work on the gamma function Γ(s) = ∫₀^∞ t<sup>s−1</sup>e<sup>−t</sup> dt is essentially a Laplace Transform evaluated at specific points. Euler's 1769 paper explicitly used integral transforms to solve second-order ODEs — decades before Laplace's systematic treatment.</p>
+        </div>
+
+        <div class="speculation-box">
+            <h4>Why Laplace's name stuck</h4>
+            <p>Mathematics is full of misattributions (Euler alone has dozens of results named after later rediscoverers). Laplace's name stuck not because he was first, but because he built a systematic framework — connecting the transform to generating functions, probability, and series solutions in a way that made it a method rather than a one-off trick. Euler planted seeds; Laplace grew the garden.</p>
+            <p class="caveat">Historical priority in mathematics is genuinely difficult to assign. Many historians argue Joseph-Louis Lagrange also deserves partial credit for his work on integral transforms in the 1770s.</p>
+        </div>
+
+        <h2>Oliver Heaviside (1850–1925)</h2>
+
+        <div class="explanation">
+            <h4>The Self-Taught Genius</h4>
+            <p>Oliver Heaviside was a retired telegraph operator who, working alone in Devon, developed "operational calculus" — a method of treating d/dt as an algebraic quantity 'p' that could be manipulated like a number. He replaced derivatives with multiplication, solved the resulting algebra, and translated back. It worked brilliantly for telegraph cable equations.</p>
+            <p>The mathematical establishment was horrified. His methods lacked rigour. He couldn't prove convergence. He famously retorted: <em>"Shall I refuse my dinner because I do not fully understand the process of digestion?"</em></p>
+        </div>
+
+        <div class="analogy">
+            Heaviside was doing Laplace Transforms without knowing it — like a carpenter who builds perfect furniture by intuition while mathematicians argue about the tensile strength of wood. His operator 'p' was exactly the variable 's' in F(s), and his "operational rules" were exactly the properties of the Laplace Transform. He just didn't know why they worked.
+        </div>
+
+        <div class="explanation">
+            <h4>Vindication</h4>
+            <p>Heaviside's methods were eventually justified rigorously — first partially by Thomas John I'Anson Bromwich (1875–1929), who showed in 1916 that Heaviside's operational calculus was equivalent to contour integration in the complex plane (the "Bromwich integral"), and then completely by Gustav Doetsch in his 1937 textbook <em>Theorie und Anwendung der Laplace-Transformation</em>, which put the entire framework on rigorous footing.</p>
+        </div>
+
+        <h2>The Modern Era</h2>
+
+        <div class="explanation">
+            <h4>From Mathematics to Engineering Standard</h4>
+            <p>The Laplace Transform became the standard language of electrical engineering in the 1940s and 1950s, driven by three forces:</p>
+            <p><strong>World War II:</strong> Radar, fire-control systems, and communications demanded rapid analysis of circuits and feedback systems. The Laplace Transform was the fastest path from problem to answer.</p>
+            <p><strong>Control theory:</strong> Bode, Nyquist, and Evans at Bell Labs built their entire stability theory in the s-domain. Their methods — Bode plots, Nyquist diagrams, root locus — are all Laplace-domain tools.</p>
+            <p><strong>Textbooks:</strong> Gardner & Barnes' <em>Transients in Linear Systems</em> (1942) made the method accessible to every engineering student.</p>
+        </div>
+
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">1942</span>
+                <span class="stat-label">first engineering text</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1940s</span>
+                <span class="stat-label">Bell Labs control theory</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1960s</span>
+                <span class="stat-label">state-space revolution</span>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <h4>Open Historical Questions</h4>
+            <ul>
+                <li>Did Laplace know of Euler's earlier integral transform work, or was his development independent?</li>
+                <li>Would engineering have found the Laplace Transform without Heaviside's operational calculus forcing mathematicians to explain why it worked?</li>
+                <li>How much did wartime secrecy delay the spread of transform methods between nations?</li>
+            </ul>
+        </div>
+
+        <h2>Timeline</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Event</th>
+                    <th>Significance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1730s</td>
+                    <td>Euler uses integral transforms</td>
+                    <td>First instances of e<sup>−at</sup> weighting in integrals</td>
+                </tr>
+                <tr>
+                    <td>1782</td>
+                    <td>Laplace's <em>Mémoire sur les suites</em></td>
+                    <td>Systematic framework connecting transforms to generating functions</td>
+                </tr>
+                <tr>
+                    <td>1880s</td>
+                    <td>Heaviside's operational calculus</td>
+                    <td>Practical application to telegraph/circuit problems</td>
+                </tr>
+                <tr>
+                    <td>1916</td>
+                    <td>Bromwich's contour integral</td>
+                    <td>Rigorous inversion formula via complex analysis</td>
+                </tr>
+                <tr>
+                    <td>1937</td>
+                    <td>Doetsch's textbook</td>
+                    <td>Complete rigorous foundation</td>
+                </tr>
+                <tr>
+                    <td>1938</td>
+                    <td>Nyquist stability criterion</td>
+                    <td>Laplace-domain stability analysis</td>
+                </tr>
+                <tr>
+                    <td>1942</td>
+                    <td>Gardner & Barnes textbook</td>
+                    <td>Engineering adoption accelerates</td>
+                </tr>
+                <tr>
+                    <td>1948</td>
+                    <td>Evans' root locus method</td>
+                    <td>Graphical s-domain design tool</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-nav">
+            <a href="index.html">← Home</a>
+            <a href="definition.html">The Definition →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base</p>
+    </footer>
+</body>
+</html>

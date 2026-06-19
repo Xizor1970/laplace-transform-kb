@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Laplace Transform — A Visual Knowledge Base</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-home active">&#x2112;</a>
+        <a href="history.html">History</a>
+        <a href="definition.html">Definition</a>
+        <a href="properties.html">Properties</a>
+        <a href="table.html">Transform Pairs</a>
+        <a href="inverse.html">Inverse</a>
+        <a href="diffeq.html">Diff Equations</a>
+        <a href="control.html">Control Systems</a>
+        <a href="applications.html">Applications</a>
+        <a href="animations.html">Animations</a>
+    </nav>
+
+    <div class="hero">
+        <h1>The Laplace Transform</h1>
+        <p class="subtitle">Turning calculus into algebra since 1782</p>
+    </div>
+
+    <div class="content">
+        <div class="stat-strip">
+            <div class="stat-item">
+                <span class="stat-number">240+</span>
+                <span class="stat-label">years old</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∫₀^∞</span>
+                <span class="stat-label">one integral</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">d/dt → s</span>
+                <span class="stat-label">derivatives become multiplication</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">applications</span>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h4>What is the Laplace Transform?</h4>
+            <p>The Laplace Transform takes a function of time — f(t) — and converts it into a function of complex frequency — F(s). This seemingly simple change of variable transforms differential equations into algebraic ones, turning the hardest problems in engineering into routine algebra.</p>
+            <p>It is the single most important tool in control theory, circuit analysis, and signal processing. If you've ever driven a car with cruise control, used a smartphone, or flown in an airplane, you've benefited from systems designed with the Laplace Transform.</p>
+        </div>
+
+        <div class="analogy">
+            Think of the Laplace Transform like translating a novel from one language to another. The story (the physics) stays the same, but in the new language (the s-domain), certain sentences that were impossibly convoluted become simple and clear. Derivatives become multiplication. Integrals become division. Convolutions become products.
+        </div>
+
+        <h2>Explore the Knowledge Base</h2>
+
+        <div class="card-grid">
+            <a href="history.html" class="card">
+                <span class="card-number">01</span>
+                <h3>History & Origins</h3>
+                <p>From Pierre-Simon Laplace's probability theory to Oliver Heaviside's operational calculus — how this tool was forged over two centuries.</p>
+            </a>
+
+            <a href="definition.html" class="card">
+                <span class="card-number">02</span>
+                <h3>The Definition</h3>
+                <p>The integral transform itself: existence conditions, region of convergence, and why we integrate from zero to infinity.</p>
+            </a>
+
+            <a href="properties.html" class="card">
+                <span class="card-number">03</span>
+                <h3>Properties & Theorems</h3>
+                <p>Linearity, time-shifting, frequency-shifting, differentiation, integration, convolution — the algebraic rules that make it powerful.</p>
+            </a>
+
+            <a href="table.html" class="card">
+                <span class="card-number">04</span>
+                <h3>Transform Pairs</h3>
+                <p>The essential lookup table: every common function and its Laplace Transform, with derivations and memory tricks.</p>
+            </a>
+
+            <a href="inverse.html" class="card">
+                <span class="card-number">05</span>
+                <h3>The Inverse Transform</h3>
+                <p>Getting back to the time domain — partial fraction decomposition, the Bromwich integral, and residue methods.</p>
+            </a>
+
+            <a href="diffeq.html" class="card">
+                <span class="card-number">06</span>
+                <h3>Solving Differential Equations</h3>
+                <p>The core application: how Laplace converts initial value problems into algebra, then inverts back to the solution.</p>
+            </a>
+
+            <a href="control.html" class="card">
+                <span class="card-number">07</span>
+                <h3>Control Systems</h3>
+                <p>Transfer functions, poles and zeros, stability criteria, PID controllers, and Bode plots — the language of feedback.</p>
+            </a>
+
+            <a href="applications.html" class="card">
+                <span class="card-number">08</span>
+                <h3>Applications</h3>
+                <p>Electrical circuits, mechanical vibrations, heat transfer, population dynamics, and signal processing in the real world.</p>
+            </a>
+
+            <a href="animations.html" class="card">
+                <span class="card-number">09</span>
+                <h3>Interactive Animations</h3>
+                <p>See the s-plane come alive: pole-zero plots, step responses, frequency response, and more — all interactive.</p>
+            </a>
+        </div>
+
+        <div class="speculation-box">
+            <h4>Why does it work so well?</h4>
+            <p>The Laplace Transform isn't just a clever trick — it reveals the deep structure of linear systems. Every linear time-invariant system is fully characterized by how it responds to exponentials e<sup>st</sup>. The transform decomposes arbitrary inputs into these exponentials, solves each one trivially (multiply by the transfer function), and reassembles the answer. The magic is that nature's most common systems — springs, circuits, chemical reactions — are all (approximately) linear.</p>
+            <p class="caveat">This "unreasonable effectiveness" depends on linearity. For truly nonlinear systems (turbulence, chaos, most of biology), the Laplace Transform offers limited insight. The search for equally powerful nonlinear tools remains one of mathematics' great open problems.</p>
+        </div>
+
+        <div class="formula">
+            F(s) = ∫₀^∞ f(t) · e^(−st) dt
+            <span class="description">The one formula that started it all — from time to frequency, from calculus to algebra.</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Laplace Transform Knowledge Base — An interactive exploration of mathematics' most powerful engineering tool.</p>
+    </footer>
+</body>
+</html>
